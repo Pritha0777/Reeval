@@ -33,7 +33,7 @@ $(document).ready(function() {
                 // finding profile where the profile id = id given by user
                 const profile = profiles.find(p => p.UserID === id.toString());
                 if (profile) {
-                    $('#profile-pic').attr('src', profile.ProfilePhoto);
+                    $('#profile-pic').attr('src', "https://reevaltech.com/scripts/uploads/" + profile.ProfilePhoto);
                     $('#header-line').text(profile.HeaderLine);
                     $('#name').text(`${profile.GenderPrefix} ${profile.FirstName} ${profile.LastName}`);
                     
