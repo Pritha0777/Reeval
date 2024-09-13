@@ -1,0 +1,230 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: 	#fdfbfb;
+}
+
+#profile-container {
+    width: 60%;
+    margin: 20px auto;
+    /* New part */
+    background-color: #f2f2f2;  /* Changed color */
+    padding: 20px;
+    border-radius: 10px;  /* Added border radius */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+/* Style for skill name in primary skills table */
+#primary-skills-table td {
+    font-size: 16px; /* Adjust as needed */
+}
+
+#primary-skills-table .skill-experience {
+    color: #888; /* Light grey color for the experience part */
+    font-size: 14px; /* Slightly smaller size for the experience part */
+    margin-left: 5px; /* Space between skill name and experience part */
+}
+
+
+.status{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;
+    align-items: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.flex-container table {
+    margin: 2px;
+    width: auto; /* The width adjusts based on content */
+    border-collapse: collapse;
+}
+
+/* Container for secondary skills boxes */
+#secondary-skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/* Styling for individual skill boxes */
+.skill-box {
+    display: flex;
+    min-width: 180px;
+    width: auto;  /* Adjust the width */  /* New part */
+    height: 38px; /* Adjust the height */
+    border: 1px solid #ddd;
+    margin: 10px;
+    background-color: #a6a6a6;
+    align-items:center;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Skill column for the name */
+.skill-name {
+    flex: 0 0 60%; /* Set to 60% width */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   text-align: center;
+    padding: 11px;
+    background-color: #cbcbcb;
+    font-size: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.skill-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    background-color: #a6a6a6;
+}
+
+/* Skill column for years and months */
+/* .skill-column:last-child { */
+    /* flex: 1; */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+} */
+
+/* .skill-column:last-child div{
+    padding: 0;
+    margin: 0;
+} */
+
+/* Skill name styling */
+/* .skill-name {
+    font-size: 16px;
+    background-color: #cbcbcb;
+    padding: 11px 0;
+    text-align: center;
+    font-weight: bold;
+    border-right: 1px solid #ddd;
+    flex-grow: 1;
+} */
+
+/* Styling for years and months */
+.skill-years, .skill-months {
+    font-size: 14px;
+     /* New part */
+    /* margin: 2px 0; */
+    text-align: center;
+    background-color: #a6a6a6;
+    /* padding: 5px 0; */
+    width: 100%;
+}
+
+
+
+.skill-divider {
+    width: 60%; /* Adjust as needed */
+    margin: 0 auto; /* Center align divider */
+    border: none;
+    border-top: 1px solid #666; /* Divider line */
+}
+
+
+.flex-container td {
+    border: 1px solid #ddd;
+    padding: 3px;
+    text-align: center;
+}
+
+/* .flex-container td:first-child {
+    font-weight: bold;
+    background-color: #f4f4f4;
+} */
+
+
+
+/* #profID{
+    float: left;
+} */
+
+img#profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 30px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #a6a6a6;
+    padding: 8px;
+}
+
+th {
+    background-color: #cbcbcb;
+}
+/* .star-rating { */
+    /* display: inline-block; */
+    /* position: relative; */
+    /* font-size: 24px; */
+    /* color: #ddd; */
+/* } */
+/* .star-rating::before { 
+    content: '★★★★★'; /* 5 full stars  */
+    /* color: #ddd;  Color for unfilled stars  */
+    /* position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 0;
+    overflow: hidden; */
+/* } */
+
+#ratings{
+    color:#eec214;
+}
+td.prime-star{
+    color:#eec214;
+}
+
+.date-info{
+    color:	#6f6f6f ;
+}
+/* Filled stars (yellow) */
+/* .star-rating::after { */
+    /* content: '★★★★★'; 5 full stars */
+    /* color: #eec214; Yellow for filled stars */
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    /* z-index: 1; */
+    /* overflow: hidden; */
+    /* width: 0; Will be dynamically set by JavaScript or CSS */
+/* } */
+
+
+
+
+/* .star-rating[data-rating="1"]::before { width: 20%; }
+.star-rating[data-rating="2"]::before { width: 40%; }
+.star-rating[data-rating="3"]::before { width: 60%; }
+.star-rating[data-rating="4"]::before { width: 80%; }
+.star-rating[data-rating="5"]::before { width: 100%; }
+.star-rating[data-rating="0.5"]::before { width: 10%; } */
