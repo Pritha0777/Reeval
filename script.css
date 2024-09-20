@@ -1,13 +1,16 @@
 /* styles.css */
 body {
     font-family: Poppins, Arial, sans-serif;
+    width: 100%;
     background-color: 	#fdfbfb;
+    margin: 0;
+    padding: 0;  /* Add padding to prevent the body from touching the edges */
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
-
 #profile-container {
     width: 60%;
-    margin: 20px auto;
-    /* New part */
+    margin: 15px auto;
     background-color: #f2f2f2;  /* Changed color */
     padding: 20px;
     border-radius: 10px;  /* Added border radius */
@@ -25,7 +28,6 @@ body {
     font-size: 14px; /* Slightly smaller size for the experience part */
     margin-left: 5px; /* Space between skill name and experience part */
 }
-
 
 .status{
     display: flex;
@@ -51,6 +53,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    gap: 10px;
 }
 
 /* Styling for individual skill boxes */
@@ -58,14 +61,16 @@ body {
     display: flex;
     min-width: 180px;
     width: auto;  /* Adjust the width */  /* New part */
-    height: 38px; /* Adjust the height */
+    max-width: 250px;
+    height: auto; /* Adjust the height */
     border: 1px solid #ddd;
     margin: 10px;
     background-color: #a6a6a6;
-    align-items:center;
+    align-items:stretch;
     text-align: center;
     border-radius: 8px;
     overflow: hidden;
+    flex: 1 1 auto;
 }
 
 /* Skill column for the name */
@@ -79,6 +84,10 @@ body {
     background-color: #cbcbcb;
     font-size: 15px;
     border-right: 1px solid #ddd;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
 }
 
 .skill-column {
@@ -86,49 +95,18 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 10px;
+    /* padding-right: 10px; */
     text-align: center;
     background-color: #a6a6a6;
 }
-
-/* Skill column for years and months */
-/* .skill-column:last-child { */
-    /* flex: 1; */
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-} */
-
-/* .skill-column:last-child div{
-    padding: 0;
-    margin: 0;
-} */
-
-/* Skill name styling */
-/* .skill-name {
-    font-size: 16px;
-    background-color: #cbcbcb;
-    padding: 11px 0;
-    text-align: center;
-    font-weight: bold;
-    border-right: 1px solid #ddd;
-    flex-grow: 1;
-} */
 
 /* Styling for years and months */
 .skill-years, .skill-months {
     font-size: 14px;
-     /* New part */
-    /* margin: 2px 0; */
     text-align: center;
     background-color: #a6a6a6;
-    /* padding: 5px 0; */
     width: 100%;
 }
-
-
 
 .skill-divider {
     width: 60%; /* Adjust as needed */
@@ -137,23 +115,11 @@ body {
     border-top: 1px solid #666; /* Divider line */
 }
 
-
 .flex-container td {
     border: 1px solid #ddd;
     padding: 3px;
     text-align: center;
 }
-
-/* .flex-container td:first-child {
-    font-weight: bold;
-    background-color: #f4f4f4;
-} */
-
-
-
-/* #profID{
-    float: left;
-} */
 
 img#profile-pic {
     width: 150px;
@@ -171,32 +137,13 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
 }
-
 th, td {
     border: 1px solid #a6a6a6;
     padding: 8px;
 }
-
 th {
     background-color: #cbcbcb;
 }
-/* .star-rating { */
-    /* display: inline-block; */
-    /* position: relative; */
-    /* font-size: 24px; */
-    /* color: #ddd; */
-/* } */
-/* .star-rating::before { 
-    content: '★★★★★'; /* 5 full stars  */
-    /* color: #ddd;  Color for unfilled stars  */
-    /* position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
-    width: 0;
-    overflow: hidden; */
-/* } */
-
 #ratings{
     color:#eec214;
 }
@@ -207,24 +154,84 @@ td.prime-star{
 .date-info{
     color:	#6f6f6f ;
 }
-/* Filled stars (yellow) */
-/* .star-rating::after { */
-    /* content: '★★★★★'; 5 full stars */
-    /* color: #eec214; Yellow for filled stars */
-    /* position: absolute; */
-    /* top: 0; */
-    /* left: 0; */
-    /* z-index: 1; */
-    /* overflow: hidden; */
-    /* width: 0; Will be dynamically set by JavaScript or CSS */
-/* } */
+#profile-info {
+    flex-grow: 1;
+}
+/* New Part */
 
+/* Responsive Styles for Smaller Screens */
+@media (max-width: 768px) {
+    /* Adjust the width of the profile container */
+    #profile-container {
+        width: 88%; 
+        margin: 10px auto;
+        padding-left: 10;
+        padding-right: 10;
+    }
 
+    /* Profile picture size adjustment */
+    img#profile-pic {
+        width: 100px; /* Smaller profile pic */
+        height: 100px;
+        align-items: center;
+        margin-right: 15px;
+        margin-top: 15px;
+    }
 
+    /* Adjust font sizes and spacing */
+    h1, h2 {
+        font-size: 1.0em; /* Reduce heading sizes */
+    }
 
-/* .star-rating[data-rating="1"]::before { width: 20%; }
-.star-rating[data-rating="2"]::before { width: 40%; }
-.star-rating[data-rating="3"]::before { width: 60%; }
-.star-rating[data-rating="4"]::before { width: 80%; }
-.star-rating[data-rating="5"]::before { width: 100%; }
-.star-rating[data-rating="0.5"]::before { width: 10%; } */
+    /* Skill table adjustments */
+    #primary-skills-table td {
+        font-size: 14px; /* Slightly smaller text for mobile */
+    }
+
+    #primary-skills-table .skill-experience {
+        font-size: 12px; /* Reduce experience font size */
+    }
+
+    .skill-box {
+        width: 40%; /* Make skill boxes full width */
+        min-width: unset; /* Remove the min-width constraint */
+        height: auto;
+    }
+
+    .skill-name {
+        padding: 5px;
+        width: 50%;
+        font-size: 14px; /* Smaller font size */
+        overflow:hidden;
+        text-overflow:ellipsis;
+        word-wrap: break-word;
+    }
+
+    .skill-column {
+        padding: 5px;
+    }
+
+    /* Adjust the status container to stack elements vertically on smaller screens */
+    .status {
+        flex-direction: row; /* Stack items */
+        align-items: flex-start;
+    }
+
+    /* Adjust the flex container for secondary skills */
+    #secondary-skills-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* Adjust font sizes for small devices */
+    body {
+        font-size: 14px; /* Smaller base font size for mobile */
+        margin: 0;
+        padding: 0 10px;  /* Add padding to prevent the body from touching the edges */
+        box-sizing: border-box;
+    }
+    p.name .rating .location .evaluation-count{
+        margin-top: 9.3px;
+        margin-bottom: 9.3px;
+    }
+}
