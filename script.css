@@ -1,15 +1,21 @@
 /* styles.css */
 body {
     font-family: Poppins, Arial, sans-serif;
+    width: 100%;
     background-color: 	#fdfbfb;
+    margin: 0;
+    padding: 0;  /* Add padding to prevent the body from touching the edges */
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 #profile-container {
     width: 60%;
-    margin: 20px auto;
+    margin: 15px auto;
     background-color: #f2f2f2;  /* Changed color */
     padding: 20px;
     border-radius: 10px;  /* Added border radius */
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    
 }
 
 /* Style for skill name in primary skills table */
@@ -78,9 +84,10 @@ body {
     background-color: #cbcbcb;
     font-size: 15px;
     border-right: 1px solid #ddd;
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-wrap: break-word;
 }
 
 .skill-column {
@@ -114,7 +121,6 @@ body {
     text-align: center;
 }
 
-
 img#profile-pic {
     width: 150px;
     height: 150px;
@@ -131,17 +137,13 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
 }
-
 th, td {
     border: 1px solid #a6a6a6;
     padding: 8px;
 }
-
 th {
     background-color: #cbcbcb;
 }
-
-
 #ratings{
     color:#eec214;
 }
@@ -152,26 +154,33 @@ td.prime-star{
 .date-info{
     color:	#6f6f6f ;
 }
+#profile-info {
+    flex-grow: 1;
+}
 /* New Part */
 
 /* Responsive Styles for Smaller Screens */
 @media (max-width: 768px) {
     /* Adjust the width of the profile container */
     #profile-container {
-        width: 95%; /* Make the container wider on smaller screens */
+        width: 88%; 
         margin: 10px auto;
+        padding-left: 10;
+        padding-right: 10;
     }
 
     /* Profile picture size adjustment */
     img#profile-pic {
-        width: 120px; /* Smaller profile pic */
-        height: 120px;
+        width: 100px; /* Smaller profile pic */
+        height: 100px;
+        align-items: center;
         margin-right: 15px;
+        margin-top: 15px;
     }
 
     /* Adjust font sizes and spacing */
     h1, h2 {
-        font-size: 1.5em; /* Reduce heading sizes */
+        font-size: 1.0em; /* Reduce heading sizes */
     }
 
     /* Skill table adjustments */
@@ -183,26 +192,28 @@ td.prime-star{
         font-size: 12px; /* Reduce experience font size */
     }
 
-    /* Adjust the skill boxes for smaller screens */
     .skill-box {
-        width: 100%; /* Make skill boxes full width */
+        width: 40%; /* Make skill boxes full width */
         min-width: unset; /* Remove the min-width constraint */
         height: auto;
-        /* padding: 10px; */
     }
 
     .skill-name {
-        padding: 8px;
+        padding: 5px;
+        width: 50%;
         font-size: 14px; /* Smaller font size */
+        overflow:hidden;
+        text-overflow:ellipsis;
+        word-wrap: break-word;
     }
 
     .skill-column {
-        padding: 8px;
+        padding: 5px;
     }
 
     /* Adjust the status container to stack elements vertically on smaller screens */
     .status {
-        flex-direction: column; /* Stack items */
+        flex-direction: row; /* Stack items */
         align-items: flex-start;
     }
 
@@ -215,8 +226,12 @@ td.prime-star{
     /* Adjust font sizes for small devices */
     body {
         font-size: 14px; /* Smaller base font size for mobile */
+        margin: 0;
+        padding: 0 10px;  /* Add padding to prevent the body from touching the edges */
+        box-sizing: border-box;
     }
-
-    
-    
+    p.name .rating .location .evaluation-count{
+        margin-top: 9.3px;
+        margin-bottom: 9.3px;
+    }
 }
