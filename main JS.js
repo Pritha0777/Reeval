@@ -6,6 +6,17 @@ function convertRatingToStars(rating) {
     const emptyStars = 5 - fullStars - halfStar;
     return '★'.repeat(fullStars) + (halfStar ? '☆' : '') + '☆'.repeat(emptyStars);
 }
+function formatExperience(years, months) {
+    if (years > 0 && months > 0) {
+        return `${years}Y ${months}M`; // Both years and months are non-zero
+    } else if (years > 0 && months === 0) {
+        return `${years}Y`; // Only years are non-zero, ignore 0M
+    } else if (years === 0 && months > 0) {
+        return `0Y ${months}M`; // No years but months exist, show both 0Y and xM
+    } else if (years === 0 && months === 0) {
+        return `0M`; // Both years and months are 0, display 0M
+    }
+}
 
 $(document).ready(function() {
 
@@ -33,6 +44,10 @@ $(document).ready(function() {
                 const profile = profiles.find(p => p.UserID === id.toString());
                 if (profile) {
                     $('#profile-pic').attr('src', "https://reevaltech.com/scripts/uploads/" + profile.ProfilePhoto);
+                    // Set the total experience in years and months
+                    const totalYears = parseInt(profile.TotalExpInYear);
+                    const totalMonths = parseInt(profile.TotalExpInMonth);
+                    $('#total-experience').text(`${formatExperience(totalYears, totalMonths)}`);
                     $('#header-line').text(profile.HeaderLine);
                     $('#name').text(`${profile.GenderPrefix} ${profile.FirstName} ${profile.LastName}`);
                     

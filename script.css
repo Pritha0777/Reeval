@@ -157,6 +157,21 @@ td.prime-star{
 #profile-info {
     flex-grow: 1;
 }
+#total-experience {
+    font-size: 14px;
+    color: #333;
+    margin-top: 3px;
+    /* padding-right: 20px; */
+    margin-right: 15px; 
+    text-align: center; /* Adjust alignment if needed */
+}
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the content inside the profile-section */
+    text-align: center;
+    margin-right: 20px; /* Space between profile and the info section */
+}
 /* New Part */
 
 /* Responsive Styles for Smaller Screens */
