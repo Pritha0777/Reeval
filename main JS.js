@@ -7,7 +7,6 @@ function convertRatingToStars(rating) {
     return '★'.repeat(fullStars) + (halfStar ? '☆' : '') + '☆'.repeat(emptyStars);
 }
 
-
 $(document).ready(function() {
 
     function getIdFromURL() {
@@ -74,29 +73,6 @@ $(document).ready(function() {
                     }).filter(row => row !== '').join('');
                     $('#primary-skills-table tbody').html(primarySkillsRows);
 
-
-                    // // Clear existing secondary skills
-                    // $('#secondary-skills-container').empty();
-
-                    // // Populate Secondary Skills Tables
-                    // // Clear existing secondary skills container
-                    // $('#secondary-skills-container').empty();
-
-                    // // Populate Secondary Skills in Box Format
-                    // const secondarySkillsBoxes = profile.secondarySkills.map(skill => `
-                    //     <div class="skill-box">
-                    //         <div class="skill-column">
-                    //             <div class="skill-name">${skill.name}</div>
-                    //         </div>
-                    //         <div class="skill-column">
-                    //             <div class="skill-years">${skill.years} Y</div>
-                    //             <div class="skill-months">${skill.months} M</div>
-                    //         </div>
-                    //     </div>
-                    // `).join('');
-
-                    // // Append the created boxes to the container
-                    // $('#secondary-skills-container').html(secondarySkillsBoxes);
                     // Display Secondary Skills
                     const secondarySkillsHTML = skills.map((skill, index) => {
                         if (isPrimarySkill[index] === '0') {
