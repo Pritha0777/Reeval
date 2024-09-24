@@ -6,7 +6,17 @@ function convertRatingToStars(rating) {
     const emptyStars = 5 - fullStars - halfStar;
     return '★'.repeat(fullStars) + (halfStar ? '☆' : '') + '☆'.repeat(emptyStars);
 }
-
+function formatExperience(years, months) {
+    if (years > 0 && months > 0) {
+        return `${years}Y ${months}M`; // Both years and months are non-zero
+    } else if (years > 0 && months === 0) {
+        return `${years}Y`; // Only years are non-zero, ignore 0M
+    } else if (years === 0 && months > 0) {
+        return `0Y ${months}M`; // No years but months exist, show both 0Y and xM
+    } else if (years === 0 && months === 0) {
+        return `0M`; // Both years and months are 0, display 0M
+    }
+}
 
 $(document).ready(function() {
 
@@ -34,6 +44,10 @@ $(document).ready(function() {
                 const profile = profiles.find(p => p.UserID === id.toString());
                 if (profile) {
                     $('#profile-pic').attr('src', "https://reevaltech.com/scripts/uploads/" + profile.ProfilePhoto);
+                    // Set the total experience in years and months
+                    const totalYears = parseInt(profile.TotalExpInYear);
+                    const totalMonths = parseInt(profile.TotalExpInMonth);
+                    $('#total-experience').text(`${formatExperience(totalYears, totalMonths)}`);
                     $('#header-line').text(profile.HeaderLine);
                     $('#name').text(`${profile.GenderPrefix} ${profile.FirstName} ${profile.LastName}`);
                     
@@ -74,29 +88,6 @@ $(document).ready(function() {
                     }).filter(row => row !== '').join('');
                     $('#primary-skills-table tbody').html(primarySkillsRows);
 
-
-                    // // Clear existing secondary skills
-                    // $('#secondary-skills-container').empty();
-
-                    // // Populate Secondary Skills Tables
-                    // // Clear existing secondary skills container
-                    // $('#secondary-skills-container').empty();
-
-                    // // Populate Secondary Skills in Box Format
-                    // const secondarySkillsBoxes = profile.secondarySkills.map(skill => `
-                    //     <div class="skill-box">
-                    //         <div class="skill-column">
-                    //             <div class="skill-name">${skill.name}</div>
-                    //         </div>
-                    //         <div class="skill-column">
-                    //             <div class="skill-years">${skill.years} Y</div>
-                    //             <div class="skill-months">${skill.months} M</div>
-                    //         </div>
-                    //     </div>
-                    // `).join('');
-
-                    // // Append the created boxes to the container
-                    // $('#secondary-skills-container').html(secondarySkillsBoxes);
                     // Display Secondary Skills
                     const secondarySkillsHTML = skills.map((skill, index) => {
                         if (isPrimarySkill[index] === '0') {
