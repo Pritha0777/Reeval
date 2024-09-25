@@ -4,96 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="reqDetail.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="back-button">
-                <button onclick="goBack()">← Back</button>
-            </div>
             <h1>Request Details</h1>
-            <div class="button-group">
-                <button onclick="saveRequest()">Save</button>
-                <button onclick="shareRequest()">Share</button>
-            </div>
         </div>
         
         <!-- Header line -->
-        <div id="header"></div>
+        <div id="header-line"></div>
         
         <!-- Request details -->
         <div class="form-group">
-            <label>Request ID :</label>
+            <label>Request ID</label>
             <span id="request-id"></span>
         </div>
         
         <div class="form-group">
-            <label>Name :</label>
+            <label>Name</label>
             <span id="name"></span>
         </div>
         
         <div class="form-group">
-            <label>Total Exp. :</label>
+            <label>Total Exp.</label>
             <span id="total-exp"></span>
         </div>
 
         <div class="form-group">
-            <label>Req. Date :</label>
+            <label>Req. Date</label>
             <span id="request-date"></span>
         </div>
         
         <div class="form-group">
-            <label>Req. Type :</label>
+            <label>Req. Type</label>
             <span id="request-type"></span>
         </div>
 
         <div class="form-group">
-            <label>Start time :</label>
+            <label>Start time</label>
             <span id="start-time"></span>
         </div>
 
         <div class="form-group">
-            <label>End time :</label>
+            <label>End time</label>
             <span id="end-time"></span>
         </div>
 
         <!-- Status -->
-        <div id="status" class="active"></div>
+        <div class="form-group">
+            <label>Status</label>
+            <span id="status"></span>
+        </div>
 
+        <!-- Skills to evaluate -->
+        <h3 class="hThree">Skills to evaluate</h3>
         <div id="skills">
-            <h3>Skills to evaluate</h3>
-            <div class="skill-box">
-                <span></span>
-                <span></span>
-            </div>
-            <div class="skill-box">
-                <span></span>
-                <span></span>
-            </div>
+           
+            <!-- Dynamic skill boxes will be added here from JS -->
         </div>
         
-        <!-- Instruction link (Optional) -->
-        <div id="instruction-link">
+        <!-- Instruction link (Optional)
+        <div id="instruction-link" class="instruction-link">
+            <span class="logo">&#9432;</span> 
             <a href="#">Instructions</a>
-        </div>
+        </div> -->
     </div>
 
     <script src="reqDetail.js"></script>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-
-        function saveRequest() {
-            // Implement save functionality here
-            alert("Request saved!");
-        }
-
-        function shareRequest() {
-            // Implement share functionality here
-            alert("Request shared!");
-        }
-    </script>
 </body>
 </html>
