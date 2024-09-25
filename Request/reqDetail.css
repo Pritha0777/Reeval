@@ -126,8 +126,8 @@ body {
 }
 
 .instruction-link {
-    text-align: center; /* Center align instructions */
-    margin: 20px 0; /* Add margin for spacing */
+    text-align: center; /* Center-align the link */
+    margin-top: 20px; /* Adjust spacing as needed */
 }
 
 .logo {
@@ -136,7 +136,84 @@ body {
     color: blue;
 }
 
+/* Modal styles */
+#instructionsModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    /* overflow: hidden; Enable scroll if needed */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center align items */
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+.instruct{
+    text-align: center;
+    margin-bottom: 10px;
+}
+#okButton {
+    display: block; /* Make it a block element */
+    margin: 20px auto; /* Center horizontally */
+    padding: 10px 20px; /* Add some padding */
+    background-color: blue; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove borders */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    flex-grow: 1;
+}
+ol {
+    
+    list-style-type: none; /* Remove default list style */
+    padding-left: 10px;
+    counter-reset: item; /* Reset counter for ordered list */
+    /* flex-grow: 1; */
+}
+
+ol li {
+    display: block; /* Ensure list items are block elements */
+    margin-bottom: 10px; /* Add space between items */
+    position: relative; /* Position relative for absolute bullets */
+    padding-left: 30px; /* Space for the bullet */
+    text-indent: -0px; /* Adjusts indentation for the text */
+}
+
+ol li::before {
+    content: counter(item) ". "; /* Add custom bullet with numbering */
+    counter-increment: item; /* Increment counter for each item */
+    position: absolute; /* Position bullet absolutely */
+    left: 0; /* Align bullet to the left */
+    font-weight: bold; /* Make bullets bold */
+}
+
+
+
+.modal-content {
+    background-color: #fefefe;
+    /* margin: 15% auto;  */
+    padding: 15px;
+    border: 1px solid #888;
+    width: 60%; 
+    height: auto;
+    max-height: 80vh;
+    /* overflow: hidden; */
+    border-radius: 8px;
+    /* position:relative;  */
+    justify-content:space-between;
+    overflow: auto;
+    display: flex; /* Use flexbox to allow content to adjust */
+    flex-direction: column;
+}
+
+
+
 /* Media queries for responsiveness */
+
 @media (max-width: 768px) {
     .container {
         width: 95%; /* Full width on smaller screens */
@@ -189,8 +266,17 @@ body {
         margin-right: 2px; /* Space between logo and text */
         color: blue;
     }
+    .modal-content {
+        width: 80%; /* Slightly wider on smaller screens */
+        padding: 15px; /* Adjust padding */
+        
+    }
 }
-
+/* @media(min-width: 768px){
+    .modal-content{
+        height: auto;
+    }
+} */
 @media (max-width: 480px) {
     .container {
         padding: 10px;
@@ -199,4 +285,14 @@ body {
     .form-group {
         margin-bottom: 10px;
     }
+    .modal-content {
+        width: 85%; /* Full width on very small screens */
+        padding: 10px; /* Further reduce padding */
+        height: 70vh;
+    }
 }
+/* @media (min-width: 1024px) {
+    .modal-content {
+        height: auto; 
+    }
+} */

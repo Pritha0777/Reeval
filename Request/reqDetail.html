@@ -65,13 +65,51 @@
             <!-- Dynamic skill boxes will be added here from JS -->
         </div>
         
-        <!-- Instruction link (Optional)
-        <div id="instruction-link" class="instruction-link">
+        <!-- Instruction link (Optional) -->
+        <!-- <div id="instruction-link" class="instruction-link">
             <span class="logo">&#9432;</span> 
-            <a href="#">Instructions</a>
+            <a href="instructions.html">Instructions</a>
         </div> -->
+        <div id="instruction-link" class="instruction-link">
+            <span class="logo">&#9432;</span>
+            <a href="#" id="showInstructions">Instructions</a>
+        </div>
+            
+        </div>
+        <div id="instructionsModal">
+            <div class="modal-content">
+                <h2 class="instruct">Instructions</h2>
+                <ol>
+                    <li>Find a quiet, private, well-lit place, free from possible interruptions.</li>
+                    <li>Please make sure your internet connection is stable.</li>
+                    <li>Check that your audio is working.</li>
+                    <li>Test your phone's camera.</li>
+                    <li>Dress professionally.</li>
+                    <li>Have a pen and notepad on your desk.</li>
+                    <li>Place your phone in silent mode.</li>
+                    <li>You can cancel the request before 15 mins of scheduled evaluation call time.</li>
+                    <li>Join the call before 10 mins of scheduled evaluation call time.</li>
+                    <li>The request will expire after 15 mins of the scheduled evaluation call time.</li>
+                </ol>
+                <button id="okButton">OK</button>
+            </div>
+        </div>  
     </div>
 
     <script src="reqDetail.js"></script>
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('instructionsModal').style.display = 'none'; // Keep modal hidden on load
+
+        document.getElementById('showInstructions').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            document.getElementById('instructionsModal').style.display = 'flex'; // Show the modal
+        });
+
+        document.getElementById('okButton').addEventListener('click', function() {
+            document.getElementById('instructionsModal').style.display = 'none'; // Hide the modal when OK is clicked
+        });
+    });
+    </script>
 </body>
 </html>
