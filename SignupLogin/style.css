@@ -15,11 +15,20 @@ body {
     
     width: 90%;
     max-width: 400px;
+    background-color: #007BFF;
+    border-radius: 10px;
+    padding: 20px 0 0 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+ 
+/* .container {
+    width: 90%;
+    max-width: 400px;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+} */
 
 .header {
     text-align: left;
@@ -33,12 +42,26 @@ body {
     padding: 20px;
     text-align: center;
     width: 100%;
-    max-width: 400px; /* Restrict the max width for better mobile view */
-    margin: 0 auto;  
+    background: #fff;
+    margin: 0;  
     box-sizing: border-box;
     justify-content: center;
     overflow: hidden;
+    border-radius: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px ;
 }
+/* .form-container {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px; 
+    margin: 0;  
+    box-sizing: border-box;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+}  */
 form {
     padding-top: 20px; /* Add padding at the top to prevent cutting */
 }
