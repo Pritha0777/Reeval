@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hello,<br>Welcome!</h1>
+        </div>
+        <div class="form-container">
+            <h2>Sign Up</h2>
+
+            <!-- Mr/Ms and First Name on the same line -->
+            <div class="flex-row">
+                <select name="title" class="half-width">
+                    <option value="mr">Mr</option>
+                    <option value="ms">Ms</option>
+                </select>
+                <input type="text" placeholder="First Name" class="half-width" />
+            </div>
+
+            <!-- Last Name below -->
+            <div class="row">
+                <input type="text" placeholder="Last Name" class="full-width" />
+            </div>
+
+            <!-- Email ID below -->
+            <div class="row">
+                <input type="email" placeholder="Email ID" class="full-width" />
+            </div>
+
+            <!-- Mobile No below -->
+            <div class="row">
+                <input type="text" placeholder="Mobile No" class="full-width" />
+            </div>
+
+            <!-- Checkbox and Terms below -->
+            <div class="row">
+                <input type="checkbox" id="terms">
+                <label for="terms">Agree to Terms & Conditions</label>
+            </div>
+
+            <!-- Sign up and other links -->
+            <button>Sign Up</button>
+            <p><a href="login.html">Want to Login?</a></p>
+            <button onclick="skipLogin()">Skip Login</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
