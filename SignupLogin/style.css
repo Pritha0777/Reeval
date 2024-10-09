@@ -36,6 +36,25 @@ body {
     color: white;
     padding: 20px;
     border-radius: 10px 10px 0 0;
+    position: relative;
+    padding-top: 80px; 
+}
+
+.logo {
+    width: 16vw; /* 20% of the viewport width */
+    max-width: 200px; /* Maximum width to avoid it getting too large on big screens */
+    min-width: 100px; 
+    filter: brightness(0) invert(1); /* White tint */
+    position: absolute; /* Position the logo absolutely within the header */
+    left: 50%; /* Move to the center of the parent container */
+    transform: translateX(-50%); /* Ensure the logo is centered horizontally */
+    top: 0; /* Move the logo above the heading */
+}
+
+.header h1{
+    margin: 0; /* Remove default margin */
+    padding-top: 20px; /* Add padding to prevent overlap */
+    font-size: 2.5em;
 }
 
 .form-container {
@@ -99,12 +118,13 @@ form {
 /* Email input field with a faint underline instead of a box */
 .email-container {
     margin-bottom: 20px;
+    margin-right: 20px;
 }
 
 .email-input {
     width: 100%;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
     outline: none;
     padding: 10px;
     font-size: 16px;
@@ -123,9 +143,10 @@ form {
     padding: 10px;
     text-align: center;
     font-size: 24px;
-    border: 1px solid #ddd;
+    border: 1.5px solid #ddd;
     border-radius: 5px;
     outline: none;
+    margin-right: 5px;
 }
 
 /* Style for hyperlink resend OTP */
@@ -165,6 +186,14 @@ a:hover {
 input[type="checkbox"] {
     margin-right: 10px;
 }
+
+/* Style the logo */
+.logo {
+    width: 150px; /* Adjust size as needed */
+    filter: brightness(0) invert(1); /* White tint */
+    margin-bottom: 20px; /* Space between logo and text */
+}
+
 @media (max-width: 500px) {
     body {
         padding: 10px; /* Add padding to prevent content from touching the edges */

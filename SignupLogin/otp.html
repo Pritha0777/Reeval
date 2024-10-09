@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="reeval_logo.png" alt="Reeval Logo" class="logo">
+            <h1>Welcome <br>Back</h1>
+        </div>
+        <div class="form-container">
+            <h2>Verify</h2>
+            <div class="email-container">
+                <input type="email" id="user-email" class="email-input" readonly />
+            </div>
+            <p id="otp-status">Waiting for OTP...</p>
+            <div class="otp-container">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+            </div>
+            <p><a href="#" onclick="resendOTP()">Resend OTP</a></p>
+            <button onclick="submitOTP()">Submit OTP</button>
+            <p><a href="signup.html">Want to Sign up?</a></p>
+            <p><a href="#" onclick="skipLogin()">Skip Login</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // Retrieve email from localStorage and set it to the input field
+        const userEmail = localStorage.getItem('userEmail');
+        console.log('Retrieved email:', userEmail); // Check what email is being retrieved
+        document.getElementById('user-email').value = userEmail || 'No email found'; // Fallback message
+
+        // Function to move to the next OTP input box
+        function moveToNext(current) {
+            if (current.nextElementSibling) {
+                current.nextElementSibling.focus();
+            }
+        }
+
+        // Resend OTP function
+        function resendOTP() {
+            fetch('http://dev.reevaltech.com/scripts/requestEmailOTP_3.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: userEmail })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    document.getElementById('otp-status').innerText = 'OTP Resent!';
+                } else {
+                    document.getElementById('otp-status').innerText = 'Failed to resend OTP!';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('otp-status').innerText = 'Error resending OTP!';
+            });
+        }
+
+        // Submit OTP function
+        function submitOTP() {
+            let otp = '';
+            document.querySelectorAll('.otp-box').forEach(box => {
+                otp += box.value;
+            });
+
+            if (otp.length === 6) {
+                fetch('http://dev.reevaltech.com/scripts/validateUserRegistrationOTP_1.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: userEmail, otp: otp })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        // If the OTP is valid
+                        document.getElementById('otp-status').innerText = 'OTP Verified!';
+                        window.location.href = 'main.html';
+                    } else {
+                        // If the OTP is invalid
+                        document.getElementById('otp-status').innerText = 'Invalid OTP!';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('otp-status').innerText = 'Error verifying OTP!';
+                });
+            } else {
+                document.getElementById('otp-status').innerText = 'Please enter a 6-digit OTP!';
+            }
+        }
+
+        // Skip login function (optional logic)
+        function skipLogin() {
+            window.location.href = 'main.html';
+        }
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
