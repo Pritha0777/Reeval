@@ -13,18 +13,18 @@
             <h1>Welcome <br>Back</h1>
         </div>
         <div class="form-container">
-            <h2>Verify</h2>
+            <h2>Verify OTP</h2>
             <div class="email-container">
                 <input type="email" id="user-email" class="email-input" readonly />
             </div>
             <p id="otp-status">Waiting for OTP...</p>
             <div class="otp-container">
-                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
-                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
-                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
-                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
-                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
-                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)" onkeydown="handleKeyDown(event, this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)" onkeydown="handleKeyDown(event, this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)" onkeydown="handleKeyDown(event, this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)" onkeydown="handleKeyDown(event, this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)" onkeydown="handleKeyDown(event, this)">
+                <input type="text" maxlength="1" class="otp-box" oninput="moveToNext(this)" onkeydown="handleKeyDown(event, this)">
             </div>
             <p><a href="#" onclick="resendOTP()">Resend OTP</a></p>
             <button onclick="submitOTP()">Submit OTP</button>
@@ -33,31 +33,53 @@
         </div>
     </div>
     
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         // Retrieve email from localStorage and set it to the input field
         const userEmail = localStorage.getItem('userEmail');
-        console.log('Retrieved email:', userEmail); // Check what email is being retrieved
-        document.getElementById('user-email').value = userEmail || 'No email found'; // Fallback message
+        document.getElementById('user-email').value = userEmail || 'No email found';
 
         // Function to move to the next OTP input box
         function moveToNext(current) {
-            if (current.nextElementSibling) {
-                current.nextElementSibling.focus();
+            // When user types a number
+            if (current.value.length === 1) {
+                // Move to the next input if there's a value
+                if (current.nextElementSibling) {
+                    current.nextElementSibling.focus();
+                }
             }
         }
 
-        // Resend OTP function
+        function handleKeyDown(event, current) {
+            // Check for backspace key
+            if (event.key === "Backspace" && current.value.length === 0) {
+                // Focus on the previous input box if current is empty
+                let prev = current.previousElementSibling;
+
+                while (prev) {
+                    if (prev.value.length > 0) {
+                        prev.value = ''; // Clear the previous box
+                        prev.focus(); // Focus on the previous box
+                        break; // Exit the loop after clearing
+                    }
+                    prev = prev.previousElementSibling; // Move to the next previous box
+                }
+            }
+        }
+
+
+
+        // Resend OTP function using axios.get
         function resendOTP() {
-            fetch('http://dev.reevaltech.com/scripts/requestEmailOTP_3.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: userEmail })
+            const email = localStorage.getItem('userEmail');
+            console.log('Resending OTP to:', email); // Log the email
+
+            axios.get('https://reevaltech.com/scripts/requestEmailOTP_3.php', {
+                params: { email: email }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status) {
+            .then(response => {
+                console.log('Server Response:', response.data); // Log the server response
+                if (response.data.trim() === "success") {
                     document.getElementById('otp-status').innerText = 'OTP Resent!';
                 } else {
                     document.getElementById('otp-status').innerText = 'Failed to resend OTP!';
@@ -69,29 +91,27 @@
             });
         }
 
-        // Submit OTP function
+        // Submit OTP function using axios.get
         function submitOTP() {
             let otp = '';
             document.querySelectorAll('.otp-box').forEach(box => {
-                otp += box.value;
+                otp += box.value; // Build the OTP from input boxes
             });
 
-            if (otp.length === 6) {
-                fetch('http://dev.reevaltech.com/scripts/validateUserRegistrationOTP_1.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email: userEmail, otp: otp })
+            if (otp.length === 6) { // Ensure the OTP length is correct
+                const email = localStorage.getItem('userEmail'); // Fetch the email again
+
+                axios.get('https://reevaltech.com/scripts/validateUserRegistrationOTP_1.php', {
+                    params: { email: email, otp: otp }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status) {
-                        // If the OTP is valid
+                .then(response => {
+                    console.log('Server Response:', response.data); // Log the server response
+                    
+                    // Check the status in the response
+                    if (response.data.status && response.data.message === "success") {
                         document.getElementById('otp-status').innerText = 'OTP Verified!';
                         window.location.href = 'main.html';
                     } else {
-                        // If the OTP is invalid
                         document.getElementById('otp-status').innerText = 'Invalid OTP!';
                     }
                 })
@@ -104,12 +124,11 @@
             }
         }
 
+
         // Skip login function (optional logic)
         function skipLogin() {
             window.location.href = 'main.html';
         }
     </script>
-    
-    <script src="script.js"></script>
 </body>
 </html>

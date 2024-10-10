@@ -23,37 +23,43 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        // Function to handle login and OTP sending
         document.getElementById('loginBtn').addEventListener('click', function() {
             const email = document.getElementById('email').value;
 
             if (email) {
                 // Save email to localStorage
                 localStorage.setItem('userEmail', email);
-
-                // Redirect to OTP page immediately
-                window.location.href = 'otp.html';
-
-                // Send OTP request to the backend in the background
-                fetch('http://dev.reevaltech.com/scripts/requestEmailOTP_3.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ email: email }) // Pass the email as URL encoded data
+                
+                // Send OTP request to the backend
+                axios.get('https://reevaltech.com/scripts/requestEmailOTP_3.php', {
+                    params: { email: email }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status) {
+                .then(response => {
+                    if (response.data === 'success') {
                         console.log('OTP sent to:', email);
-                        // OTP was successfully sent
+                        // Redirect to OTP page after OTP is successfully sent
+                        window.location.href = 'otp.html';
                     } else {
-                        console.error('Failed to send OTP.');
+                        console.error('Failed to send OTP:', response.data);
+                        alert('Failed to send OTP. Please try again.');
                     }
                 })
                 .catch(error => {
-                    console.error('Error sending OTP:', error);
+                    if (error.response) {
+                        // The request was made, and the server responded with a status code
+                        console.error('Error response:', error.response.data);
+                        console.error('Error status:', error.response.status);
+                        console.error('Error headers:', error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.error('Error request:', error.request);
+                    } else {
+                        // Something happened in setting up the request
+                        console.error('Error message:', error.message);
+                    }
                 });
-
             } else {
                 alert('Please enter your email');
             }
@@ -63,6 +69,5 @@
             window.location.href = 'otp.html';
         }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>
