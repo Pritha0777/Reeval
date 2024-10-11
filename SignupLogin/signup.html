@@ -48,11 +48,19 @@
             </div>
 
             <!-- Sign up and other links -->
-            <button>Sign Up</button>
+            <button onclick="signup()">Sign Up</button>
             <p><a href="login.html">Want to Login?</a></p>
             <p><a href="#" onclick="skipLogin()">Skip Login</a></p>
         </div>
     </div>
+    <script>
+        function skipLogin() {
+            window.location.href = 'main.html';
+        }
+        function signup() {
+            window.location.href = 'profile.html';
+        }
+    </script>
 
     <script src="script.js"></script>
 </body>
