@@ -18,27 +18,27 @@
 
             <!-- Mr/Ms and First Name on the same line -->
             <div class="flex-row">
-                <select name="title" class="half-width">
-                    <option value="mr">Mr</option>
-                    <option value="ms">Ms</option>
-                    <option value="mrs">Mrs</option>
+                <select id="title" name="title" class="half-width">
+                    <option value="Mr">Mr</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Mrs">Mrs</option>
                 </select>
-                <input type="text" placeholder="First Name" class="half-width" />
+                <input type="text" id="firstName" placeholder="First Name" class="half-width" />
             </div>
 
             <!-- Last Name below -->
             <div class="row">
-                <input type="text" placeholder="Last Name" class="full-width" />
+                <input type="text" id="lastName" placeholder="Last Name" class="full-width" />
             </div>
 
             <!-- Email ID below -->
             <div class="row">
-                <input type="email" placeholder="Email ID" class="full-width" />
+                <input type="email" id="email" placeholder="Email ID" class="full-width" />
             </div>
 
             <!-- Mobile No below -->
             <div class="row">
-                <input type="text" placeholder="Mobile No" class="full-width" />
+                <input type="text" id="mobile" placeholder="Mobile No" class="full-width" />
             </div>
 
             <!-- Checkbox and Terms below -->
@@ -53,15 +53,39 @@
             <p><a href="#" onclick="skipLogin()">Skip Login</a></p>
         </div>
     </div>
+
     <script>
+        function signup() {
+            // Collect user input
+            const title = document.getElementById("title").value;
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const email = document.getElementById("email").value;
+            const mobile = document.getElementById("mobile").value;
+
+            // Check if terms are accepted
+            const terms = document.getElementById("terms").checked;
+            if (!terms) {
+                alert("Please accept the Terms & Conditions.");
+                return;
+            }
+
+            // Store the data in localStorage
+            localStorage.setItem("title", title);
+            localStorage.setItem("firstName", firstName);
+            localStorage.setItem("lastName", lastName);
+            localStorage.setItem("email", email);
+            localStorage.setItem("mobile", mobile);
+
+            // Redirect to profile page (First Step), adjusting the path to match the correct folder structure
+            window.location.href = '../Profile/personalDetails.html'; // Assuming profile.html is inside a 'profile' folder
+        }
+
+
         function skipLogin() {
             window.location.href = 'main.html';
         }
-        function signup() {
-            window.location.href = 'profile.html';
-        }
     </script>
 
-    <script src="script.js"></script>
 </body>
 </html>
