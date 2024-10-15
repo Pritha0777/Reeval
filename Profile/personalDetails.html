@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box; /* Prevent overflow */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select {
+            width: 100%; /* Ensure full-width */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Prevent overflow */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .profile-picture-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-picture img {
+            border-radius: 50%; /* Circle shape */
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            background-color: #e0e0e0;
+        }
+
+        .edit-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: block; /* Always visible */
+        }
+
+        #emailDisplay {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container" id="page1">
+        <h2>Profile Details</h2>
+        <div class="profile-picture-section">
+            <!-- Profile Picture -->
+            <div class="profile-picture">
+                <img id="profilePic" src="default-avatar.jpg" alt="Profile Picture">
+                <!-- Pen icon for editing profile picture -->
+                <label for="profilePicUpload" class="edit-icon">✏️</label>
+                <input type="file" id="profilePicUpload" accept="image/*" style="display:none;" onchange="loadProfilePicture(event)">
+            </div>
+            <p id="emailDisplay"></p>
+        </div>
+        <form id="personalDetailsForm">
+            <label for="prefix">Pre.*</label>
+            <select id="prefix" name="prefix">
+                <option value="Mr">Mr</option>
+                <option value="Ms">Ms</option>
+                <option value="Mrs">Mrs</option>
+            </select>
+
+            <label for="firstName">First Name*</label>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name">
+
+            <label for="lastName">Last Name*</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+
+            <label for="mobileNumber">Mobile Number*</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number">
+
+            <button type="button" onclick="continueToNextPage()">Continue</button>
+        </form>
+    </div>
+
+    <script>
+        // Fetch data from localStorage and populate the form
+        document.getElementById("prefix").value = localStorage.getItem("title");
+        document.getElementById("firstName").value = localStorage.getItem("firstName");
+        document.getElementById("lastName").value = localStorage.getItem("lastName");
+        document.getElementById("mobileNumber").value = localStorage.getItem("mobile");
+        document.getElementById("emailDisplay").textContent = localStorage.getItem("email");
+
+        // Load selected profile picture
+        function loadProfilePicture(event) {
+            const profilePic = document.getElementById("profilePic");
+            profilePic.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        // Check if a profile picture has been uploaded before continuing
+        function continueToNextPage() {
+            const profilePic = document.getElementById("profilePic").src;
+            if (profilePic.includes('default-avatar.jpg')) {
+                alert('Please upload a profile picture before proceeding.');
+            } else {
+                // Logic to move to the next page
+                alert('Continue to the next page functionality here.');
+            }
+        }
+    </script>
+    
+</body>
+</html>
