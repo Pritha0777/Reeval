@@ -102,8 +102,12 @@
     window.onload = function() {
         document.getElementById('resultJobTitle').textContent = localStorage.getItem('jobTitle');
         document.getElementById('resultCompanyName').textContent = localStorage.getItem('companyName');
-        document.getElementById('resultCityId').textContent = localStorage.getItem('cityId');
-        document.getElementById('resultWorkType').textContent = localStorage.getItem('workType');
+        const cityName = localStorage.getItem('cityName');
+        document.getElementById('resultCityId').innerText = cityName;
+        const workTypeName = localStorage.getItem('workTypeName');
+        document.getElementById('resultWorkType').innerText = workTypeName;
+        // document.getElementById('resultCityId').textContent = localStorage.getItem('cityId');
+        // document.getElementById('resultWorkType').textContent = localStorage.getItem('workType');
         document.getElementById('resultDescription').textContent = localStorage.getItem('jobDescription');
         document.getElementById('resultExpFrom').textContent = localStorage.getItem('expFrom');
         document.getElementById('resultExpTo').textContent = localStorage.getItem('expTo');
