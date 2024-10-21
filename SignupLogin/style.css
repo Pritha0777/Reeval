@@ -1,0 +1,212 @@
+/* General page styling remains the same */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* flex-direction:column; */
+}
+
+.container {
+    
+    width: 90%;
+    max-width: 400px;
+    background-color: #007BFF;
+    border-radius: 10px;
+    padding: 20px 0 0 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+ 
+/* .container {
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+} */
+
+.header {
+    text-align: left;
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    padding-top: 80px; 
+}
+
+.logo {
+    width: 16vw; /* 20% of the viewport width */
+    max-width: 200px; /* Maximum width to avoid it getting too large on big screens */
+    min-width: 100px; 
+    filter: brightness(0) invert(1); /* White tint */
+    position: absolute; /* Position the logo absolutely within the header */
+    left: 50%; /* Move to the center of the parent container */
+    transform: translateX(-50%); /* Ensure the logo is centered horizontally */
+    top: 0; /* Move the logo above the heading */
+}
+
+.header h1{
+    margin: 0; /* Remove default margin */
+    padding-top: 20px; /* Add padding to prevent overlap */
+    font-size: 2.5em;
+}
+
+.form-container {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    background: #fff;
+    margin: 0;  
+    box-sizing: border-box;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px ;
+}
+/* .form-container {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px; 
+    margin: 0;  
+    box-sizing: border-box;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+}  */
+form {
+    padding-top: 20px; /* Add padding at the top to prevent cutting */
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.flex-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;  /* Space between the dropdown and input */
+    margin-bottom: 15px;
+}
+
+.half-width {
+    flex-basis: 48%;
+    /* margin-right: 2%; */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box; 
+}
+
+.full-width {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box; 
+}
+
+/* Email input field with a faint underline instead of a box */
+.email-container {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.email-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+/* Style for OTP boxes */
+.otp-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.otp-box {
+    width: 15%;
+    padding: 10px;
+    text-align: center;
+    font-size: 24px;
+    border: 1.5px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 5px;
+}
+
+/* Style for hyperlink resend OTP */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    width: 80%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Style the logo */
+.logo {
+    width: 150px; /* Adjust size as needed */
+    filter: brightness(0) invert(1); /* White tint */
+    margin-bottom: 20px; /* Space between logo and text */
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px; /* Add padding to prevent content from touching the edges */
+        height: 100vh; 
+        /* Let the height adjust based on content */
+
+    }
+}
+
+@media (max-height: 700px) {
+    body {
+        padding: 10px;
+        height: 90%; 
+
+    }
+}

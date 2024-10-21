@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="reeval_logo.png" alt="Reeval Logo" class="logo">
+            <h1>Welcome <br>Back</h1>
+        </div>
+        <div class="form-container">
+            <h2>Sign In</h2>
+            <div class="email-container">
+                <input type="email" id="email" placeholder="Email ID" class="email-input" required/>
+            </div>
+            <p><a href="signup.html">Want to Sign up?</a></p>
+            <button id="loginBtn">Login</button>
+            <p><a href="#" onclick="skipLogin()">Skip Login</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+
+            if (email) {
+                // Save email to localStorage
+                localStorage.setItem('userEmail', email);
+                
+                // Send OTP request to the backend
+                axios.get('https://reevaltech.com/scripts/requestEmailOTP_3.php', {
+                    params: { email: email }
+                })
+                .then(response => {
+                    if (response.data === 'success') {
+                        console.log('OTP sent to:', email);
+                        // Redirect to OTP page after OTP is successfully sent
+                        window.location.href = 'otp.html';
+                    } else {
+                        console.error('Failed to send OTP:', response.data);
+                        alert('Failed to send OTP. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    if (error.response) {
+                        // The request was made, and the server responded with a status code
+                        console.error('Error response:', error.response.data);
+                        console.error('Error status:', error.response.status);
+                        console.error('Error headers:', error.response.headers);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.error('Error request:', error.request);
+                    } else {
+                        // Something happened in setting up the request
+                        console.error('Error message:', error.message);
+                    }
+                });
+            } else {
+                alert('Please enter your email');
+            }
+        });
+
+        function skipLogin() {
+            window.location.href = 'main.html';
+        }
+    </script>
+</body>
+</html>

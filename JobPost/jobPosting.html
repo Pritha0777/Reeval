@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Post Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1rem; /* Default base font size (16px) */
+        }
+
+        /* Make the form container responsive */
+        .form-container {
+            width: 90%; /* 90% width for small screens */
+            max-width: 700px; /* Limit max width for larger screens */
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem; /* Responsive heading */
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem; /* Responsive input label size */
+        }
+
+        .form-group label {
+            width: 30%;
+            padding-right: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-group .colon {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .form-group .job-description {
+            flex: 0.97; /* Allow it to take remaining space */
+            height: 150px; /* Set a height for the job description area */
+            overflow-y: auto; /* Allow scrolling if content exceeds height */
+            white-space: pre-wrap; /* Preserve whitespace */
+            border: 1px solid #ccc; /* Border for visibility */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding for better text visibility */
+        }
+
+        .form-group input, .form-group textarea {
+            width: 65%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem; /* Responsive input size */
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group input[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1rem; /* Responsive submit button size */
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Media Queries for responsiveness */
+
+        @media (max-width: 768px) {
+            .form-container {
+                width: 95%; /* Wider form for smaller screens */
+            }
+            .form-group label {
+                font-size: 0.85rem;
+            }
+            .form-group input, .form-group textarea {
+                font-size: 0.9rem; /* Slightly smaller input font size */
+            }
+            .form-group input[type="submit"] {
+                font-size: 1rem;
+            }
+            .form-group .job-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-group {
+                font-size: 0.7rem; /* Decrease font size further on very small screens */
+            }
+            .form-group input, .form-group textarea {
+                font-size: 0.8rem;
+            }
+            .form-group input[type="submit"] {
+                font-size: 0.9rem;
+            }
+            .form-group .job-description {
+                font-size: 0.8rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Job Post Form</h2>
+    <form id="jobForm">
+        <div class="form-group">
+            <label for="jobTitle">Job Post Title</label>
+            <span class="colon">:</span>
+            <input type="text" id="jobTitle" name="jobTitle" required>
+        </div>
+
+        <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <span class="colon">:</span>
+            <input type="text" id="companyName" name="companyName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="cityId">City, State</label>
+            <span class="colon">:</span>
+            <input type="text" id="cityId" name="cityId" required>
+        </div>
+
+        <div class="form-group">
+            <label for="workType">Work Type</label>
+            <span class="colon">:</span>
+            <input type="text" id="workType" name="workType" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jobDescription">Job Description</label>
+            <span class="colon">:</span>
+            <div id="jobDescription" class="job-description" contenteditable="true" placeholder="• Enter bullet points for job description..."></div>
+            <script>
+                // Automatically insert a bullet point when user starts typing
+                document.getElementById('jobDescription').addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.execCommand('insertHTML', false, '<br>• ');
+                    }
+                });
+
+                // On focus, set initial content as bullet point
+                document.getElementById('jobDescription').addEventListener('focus', function() {
+                    if (this.textContent.trim() === '') {
+                        this.innerHTML = '• '; // Start with a bullet
+                        placeCaretAtEnd(this);
+                    }
+                });
+
+                // Function to place caret at the end of contenteditable div
+                function placeCaretAtEnd(el) {
+                    el.focus();
+                    const range = document.createRange();
+                    range.selectNodeContents(el);
+                    range.collapse(false);
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            </script>
+        </div>
+
+        <div class="form-group">
+            <label for="expFrom">Experience Required (From)</label>
+            <span class="colon">:</span>
+            <input type="number" id="expFrom" name="expFrom" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="expTo">Experience Required (To)</label>
+            <span class="colon">:</span>
+            <input type="number" id="expTo" name="expTo" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="package">Salary Package</label>
+            <span class="colon">:</span>
+            <input type="text" id="package" name="package" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Contact Details</label>
+            <span class="colon">:</span>
+            <input type="email" id="contact" name="contact" required>
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <span class="colon">:</span>
+            <input type="date" id="startDate" name="startDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate">End Date</label>
+            <span class="colon">:</span>
+            <input type="date" id="endDate" name="endDate" required>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Submit Job Post">
+        </div>
+    </form>
+</div>
+
+<script>
+    // Set the min attribute for the start and end date inputs to today's date
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date().toISOString().split("T")[0]; // Get today's date in yyyy-mm-dd format
+        document.getElementById("startDate").setAttribute("min", today);
+        document.getElementById("endDate").setAttribute("min", today);
+    });
+
+    // Function to set the min date for the end date based on selected start date
+    document.getElementById("startDate").addEventListener("change", function() {
+        const startDate = this.value;
+        document.getElementById("endDate").setAttribute("min", startDate); // Set end date min to start date
+        document.getElementById("endDate").value = ""; // Clear end date if start date changes
+    });
+
+    document.getElementById('jobForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Fetch the form values
+        const jobTitle = document.getElementById('jobTitle').value;
+        const companyName = document.getElementById('companyName').value;
+        const cityId = document.getElementById('cityId').value;
+        const workType = document.getElementById('workType').value;
+        const description = document.getElementById('jobDescription').innerText;
+        const expFrom = document.getElementById('expFrom').value;
+        const expTo = document.getElementById('expTo').value;
+        const package = document.getElementById('package').value;
+        const contact = document.getElementById('contact').value;
+        const validity1 = document.getElementById('startDate').value;
+        const formattedDate1 = validity1.split('-').reverse().join('-');
+        const validity2 = document.getElementById('endDate').value;
+        const formattedDate2 = validity2.split('-').reverse().join('-');
+
+        // Save data to localStorage
+        localStorage.setItem('jobTitle', jobTitle);
+        localStorage.setItem('companyName', companyName);
+        localStorage.setItem('cityId', cityId);
+        localStorage.setItem('workType', workType);
+        localStorage.setItem('description', description);
+        localStorage.setItem('expFrom', expFrom);
+        localStorage.setItem('expTo', expTo);
+        localStorage.setItem('package', package);
+        localStorage.setItem('contact', contact);
+        localStorage.setItem('startDate', formattedDate1);
+        localStorage.setItem('endDate', formattedDate2);
+
+        // Redirect to job-post.html
+        window.location.href = 'displayPosting.html';
+    });
+</script>
+</body>
+</html>

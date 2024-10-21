@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Post Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+        }
+        .result-container {
+            width: 90%; /* 90% width for small screens */
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+        }
+        .result-heading {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #f2f2f2;
+        }
+        .result-table th:first-child {
+            width: 30%;
+        }
+        .job-description {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="result-container">
+    <div class="result-heading">
+        Job Post Details
+    </div>
+    <table class="result-table">
+        <tr>
+            <th>Job Post Title</th>
+            <td id="resultJobTitle"></td>
+        </tr>
+        <tr>
+            <th>Company Name</th>
+            <td id="resultCompanyName"></td>
+        </tr>
+        <tr>
+            <th>City, State</th>
+            <td id="resultCityId"></td>
+        </tr>
+        <tr>
+            <th>Work Type</th>
+            <td id="resultWorkType"></td>
+        </tr>
+        <tr>
+            <th>Job Description</th>
+            <td id="resultDescription" class="job-description"></td>
+        </tr>
+        <tr>
+            <th>Experience Required (From)</th>
+            <td id="resultExpFrom"></td>
+        </tr>
+        <tr>
+            <th>Experience Required (To)</th>
+            <td id="resultExpTo"></td>
+        </tr>
+        <tr>
+            <th>Salary Package</th>
+            <td id="resultPackage"></td>
+        </tr>
+        <tr>
+            <th>Contact Details</th>
+            <td id="resultContact"></td>
+        </tr>
+        <tr>
+            <th>Job Post Validity(Start)</th>
+            <td id="resultValidity1"></td>
+        </tr>
+        <tr>
+            <th>Job Post Validity(End)</th>
+            <td id="resultValidity2"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    document.getElementById('resultJobTitle').textContent = localStorage.getItem('jobTitle');
+    document.getElementById('resultCompanyName').textContent = localStorage.getItem('companyName');
+    document.getElementById('resultCityId').textContent = localStorage.getItem('cityId');
+    document.getElementById('resultWorkType').textContent = localStorage.getItem('workType');
+    document.getElementById('resultDescription').textContent = localStorage.getItem('description');
+    document.getElementById('resultExpFrom').textContent = localStorage.getItem('expFrom');
+    document.getElementById('resultExpTo').textContent = localStorage.getItem('expTo');
+    document.getElementById('resultPackage').textContent = localStorage.getItem('package');
+    document.getElementById('resultContact').textContent = localStorage.getItem('contact');
+    document.getElementById('resultValidity1').textContent = localStorage.getItem('startDate');
+    document.getElementById('resultValidity2').textContent = localStorage.getItem('endDate');
+</script>
+
+</body>
+</html>
