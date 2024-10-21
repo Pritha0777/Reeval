@@ -13,7 +13,7 @@ const { requestId } = getQueryParams();
 fetch(`https://reevaltech.com/scripts/getRequestDetailsService.php?requestId=${requestId}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);  // Log the raw data to see its structure
+        console.log(data); // Log the raw data to see its structure
 
         // Parse the stringified data inside 'data' field
         let parsedData;
@@ -48,9 +48,9 @@ fetch(`https://reevaltech.com/scripts/getRequestDetailsService.php?requestId=${r
 
             let statusText = '';
 
-            // Integrate status logic
+            // Status Logic Based on Old Code
             if (reqIsNotApproved == 1) {
-                statusText = 'processing...';
+                statusText = 'Processing...';
             } else if (reqIsUserJoinTimeExpired == 1 || reqIsEvaluatorJoinTimeExpired == 1) {
                 statusText = 'Joining time expired';
             } else if (reqCurrStatus === "Active") {
@@ -88,7 +88,7 @@ fetch(`https://reevaltech.com/scripts/getRequestDetailsService.php?requestId=${r
             } else if (reqCurrStatus === "CancelledByCandidate") {
                 statusText = 'Cancelled by Candidate';
             } else if (reqCurrStatus === "CancelledByEvaluator") {
-                // in this case the request will become active via backend itself
+                // this case is handled elsewhere and will be updated from the backend
             } else if (reqCurrStatus === "CandidateNonAttendance") {
                 statusText = 'Candidate did not show up in time';
             } else if (reqCurrStatus === "EvaluatorNonAttendance") {
