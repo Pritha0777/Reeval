@@ -332,6 +332,24 @@
 
         console.log('FormData:', formDataJson);
 
+        $.ajax({
+            type: "GET",
+            url: 'https://dashboard.reevaltech.com/scripts/createJobPostService.php',
+            data: { formDataJson},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: successFunc,
+            error: errorFunc
+        });
+
+        function successFunc(data, status) {
+            console.log('Success:', data);
+            }
+    
+            function errorFunc() {
+                console.error('Failure:');
+            }
+
 
         // Submit the form data to PHP using axios
         // axios.get("https://reevaltech.com/scripts/createJobPostService.php", formDataObject)
@@ -346,7 +364,7 @@
         //     });
             
         // Submit the form data to PHP using fetch
-        fetch(`https://reevaltech.com/scripts/createJobPostService.php?${params}`, {
+        // fetch(`https://reevaltech.com/scripts/createJobPostService.php?${params}`, {
 
         //     method: 'POST',
         //     body: formDataJson,
@@ -360,24 +378,25 @@
         //         console.error('Failure:', data);
         //     }
         // })
-        
-            method: 'GET', 
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Response message:", data.message);
-                if (data.status) {
-                    // Handle success response
-                    console.log('Success:', data);
-                } else {
-                    console.error('Failure:', data);
-                }
-            })
-        .catch(error => {
-            console.error('Error:', error); 
-        });
+
+        //     method: 'GET', 
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log("Response message:", data.message);
+        //         if (data.status) {
+        //             // Handle success response
+        //             console.log('Success:', data);
+        //         } else {
+        //             console.error('Failure:', data);
+        //         }
+        //     })
+        // .catch(error => {
+        //     console.error('Error:', error); 
+        // });
     });
 
     </script> 
+    <script type="text/javascript" src="jquery-3.7.1.js"></script>
     </body>   
 </html>
