@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Cards</title>
+  <style>
+    .card {
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px 0;
+      cursor: pointer;
+    }
+
+    .card-header h2 {
+      margin: 0;
+    }
+
+    .card-header p {
+      font-size: 14px;
+    }
+
+    .card-body p {
+      font-size: 16px;
+    }
+
+    .location-icon::before {
+      content: "📍";
+    }
+
+    .experience-icon::before {
+      content: "🛠";
+    }
+  </style>
+</head>
+<body>
+  <h1>Available Job Posts</h1>
+  <div id="cardContainer"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchJobPosts();
+    });
+
+    function fetchJobPosts() {
+      const lastMaxActJobPstSeq = 0; // Set this to the actual value as needed
+      const url = `https://reevaltech.com/scripts/getJobPostPageDataService.php?LastMaxActJobPstSeq=${lastMaxActJobPstSeq}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data); // Log the response for debugging
+          if (data.status && data.message === 'success') {
+            // Parse the stringified JSON data
+            const jobPosts = JSON.parse(data.data);
+            if (Array.isArray(jobPosts)) {
+              const cardContainer = document.getElementById('cardContainer');
+              jobPosts.forEach(post => {
+                const card = createCard(post);
+                cardContainer.appendChild(card);
+              });
+            } else {
+              console.error('Expected job posts to be an array, but got:', jobPosts);
+            }
+          } else {
+            console.error('API response was not successful:', data);
+          }
+        })
+        .catch(error => console.error('Error fetching job posts:', error));
+    }
+
+    function createCard(post) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => redirectToDetails(post.JobPostID); // Pass jobPostId
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h2>${post.JobPostTitle}</h2>
+          <p><i class="location-icon"></i> ${post.JobPostLocation || 'Location not specified'}</p>
+          <p><i class="experience-icon"></i> ${post.ExperienceYears || 0} Years ${post.ExperienceMonths || 0} Months</p>
+        </div>
+        <div class="card-body">
+          <p>${post.JobPostDescription || 'No skills listed'}</p>
+          <p>${post.JobPostValidity || 'Date not specified'}</p>
+        </div>
+      `;
+
+      return card;
+    }
+
+    function redirectToDetails(jobPostId) {
+      window.location.href = `detailsPage.html?jobPostId=${jobPostId}`;
+    }
+  </script>
+</body>
+</html>
