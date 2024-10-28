@@ -12,6 +12,10 @@
     body {
       font-family: Poppins, Arial, sans-serif;
     }
+    ion-icon {
+      margin-right: 10px;
+      vertical-align: middle;
+    }
 
     #jobDetails {
       background-color: white;
@@ -29,10 +33,22 @@
     p {
       margin: 5px 0;
     }
+    .label {
+      display: inline-block;
+      width: 150px; /* Adjust width as needed */
+      text-align: left;
+    }
+
+    .colon {
+      display: inline-block;
+      width: 10px; /* Fixed width to align colons */
+      text-align: left;
+    }
+
   </style>
 </head>
 <body>
-  <h1>Job Post Details</h1>
+  <!-- <h1>Job Post Details</h1> -->
   <div id="jobDetails">Loading...</div>
 
   <script>
@@ -65,30 +81,24 @@
             // Format location and validity
             const location = `${data.CityName || 'City not specified'}, ${data.StateName || 'State not specified'}, ${data.CountryName || 'Country not specified'}`;
             const formattedValidity = data.JobPostValidity ? formatDate(data.JobPostValidity) : 'Date not specified';
-            const formattedDescription = (data.JobPostDescription || 'N/A')
+            const formattedDescription = formatDescription(data.JobPostDescription || 'N/A');
             // .replace(/\n/g, '<br>- ');
+            const contactDetails = formatContactDetails(data.JobPostContactDetails);
 
             document.getElementById('jobDetails').innerHTML = `
               <h2>${data.JobPostTitle || 'N/A'}</h2>
-              <p><strong>Company Name:</strong> ${data.JobPostCompanyName || 'N/A'}</p>
-              <p><strong>Location:</strong> ${location}</p>
-              <p><strong>Experience:</strong> ${data.JobPostExpReqFrom || 0} - ${data.JobPostExpReqTo || 0} years</p>
-              <p><strong>Employment Type:</strong> ${data.JobPostWorkTypeName || 'N/A'}</p>
-              <p><strong>Salary Range:</strong> ${data.JobPostPackageDetails || 'N/A'}</p>
-              <p><strong>Contact Details:</strong> ${data.JobPostContactDetails || 'N/A'}</p>
-              <p><strong>Valid Upto:</strong> ${formattedValidity}</p>
+              <p><ion-icon name="business-outline"></ion-icon> ${data.JobPostCompanyName || 'N/A'}</p>
+              <p><ion-icon name="location-outline"></ion-icon> ${location}</p>
+              <p><ion-icon name="briefcase-outline"></ion-icon> ${data.JobPostExpReqFrom || 0} - ${data.JobPostExpReqTo || 0} years</p>
               <p><strong>Description:</strong></p> <!-- Separate "Description" with a gap -->
               <div style="margin-left: 20px; margin-top: 10px;">
-              <ul>
-                ${formattedDescription.split('\n').map(point => {
-                  // Check if the line is not empty or just whitespace
-                  if (point.trim()) {
-                    return `<li>${point}</li>`;
-                  }
-                  return '';  // Skip blank lines
-                }).join('')}
-              </ul>
-            </div>
+              ${formattedDescription}
+              </div>
+              <p><span class="label"><strong>Employment Type</strong></span><span class="colon">:</span> ${data.JobPostWorkTypeName || 'N/A'}</p>
+              <p><span class="label"><strong>Salary Range</strong></span><span class="colon">:</span> ${data.JobPostPackageDetails || 'N/A'}</p>
+              <p><span class="label"><strong>Contact Details</strong></span><span class="colon">:</span> ${contactDetails}</p>
+              <p><span class="label"><strong>Valid Upto</strong></span><span class="colon">:</span> ${formattedValidity}</p>
+              
             `;
           } else {
             document.getElementById('jobDetails').innerHTML = '<p>No valid data received for this job post.</p>';
@@ -96,6 +106,76 @@
           }
         })
         .catch(error => console.error('Error fetching job post details:', error));
+    }
+
+    function formatDescription(description) {
+        // Check if the description already contains <li> tags (formatted bullets)
+        if (description.includes("<li>")) {
+            return `<ul>${description}</ul>`;
+        } else {
+            // Split by new lines and format appropriately
+            return `
+                <ul>
+                  ${description.split('\n').map((point, index, array) => {
+                      const trimmedPoint = point.trim();
+                      const isHeading = trimmedPoint.endsWith(':');
+                      const nextLineHasBullet = index < array.length - 1 && 
+                                                (array[index + 1].includes('- ') || array[index + 1].includes('• '));
+
+                      // Preserve headings (e.g., "Requirements:") as-is
+                      if (isHeading) {
+                          return `<li>${trimmedPoint}</li>`;
+                      }
+
+                      // If the previous line was a heading, add tab indentation for subsequent lines
+                      if (index > 0 && array[index - 1].trim().endsWith(':')) {
+                          // Add bullet only if the trimmed point is not empty
+                          if (trimmedPoint) {
+                              // Keep the existing bullet style if present
+                              if (trimmedPoint.startsWith('- ') || trimmedPoint.startsWith('• ')) {
+                                  return `<li style="list-style-type: none; padding-left: 20px;">${trimmedPoint}</li>`;
+                              } else {
+                                  // Add a small bullet for new lines following the heading
+                                  return `<li style="list-style-type: none; padding-left: 20px;">• ${trimmedPoint}</li>`;
+                              }
+                          }
+                          return ''; // Skip blank lines
+                      }
+
+                      // Preserve existing bullet formats (either - or •) without modifying
+                      if (trimmedPoint.startsWith('- ') || trimmedPoint.startsWith('• ')) {
+                          return `<li style="list-style-type: none;">${trimmedPoint}</li>`;
+                      }
+
+                      // For normal text, add a bullet point if none exists
+                      if (trimmedPoint) {
+                          return `<li style="list-style-type: none;">• ${trimmedPoint}</li>`;
+                      }
+
+                      return ''; // Skip blank lines
+                  }).join('')}
+                </ul>
+            `;
+        }
+    }
+
+
+
+
+    function formatContactDetails(contactDetails) {
+      if (!contactDetails) return 'N/A';
+
+      const phoneMatch = contactDetails.match(/\b\d{10}\b/); // Match 10-digit numbers for phone
+      const emailMatch = contactDetails.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/); // Basic email regex
+
+      let formattedContact = '';
+      if (emailMatch) formattedContact += `<ion-icon name="mail-outline"></ion-icon><span>Email: ${emailMatch[0]}</span>`;
+      if (phoneMatch) {
+          if (formattedContact) formattedContact += `<br>`; // Line break between email and phone
+          formattedContact += `<ion-icon name="call-outline"></ion-icon><span>Phone: ${phoneMatch[0]}</span>`;
+      }
+
+      return formattedContact || 'N/A';
     }
 
 

@@ -383,6 +383,20 @@
             </div>
         </form>
     </div>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to prevent single quotes in input fields
+            function restrictSingleQuote(inputField) {
+                inputField.addEventListener('input', function () {
+                    this.value = this.value.replace(/'/g, ""); // Remove single quotes
+                });
+            }
+    
+            // Apply restriction to jobTitle and jobDescription fields
+            restrictSingleQuote(document.getElementById("jobTitle"));
+            restrictSingleQuote(document.getElementById("jobDescription"));
+        });
+    </script>
     
     <script type="text/javascript" src="jquery-3.7.1.js"></script>
     </body>   
