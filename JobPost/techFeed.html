@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            body {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+            }
+            
+            .topnav {
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            .topnav a {
+              float: left;
+              color: #f2f2f2;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+              font-size: 17px;
+            }
+            
+            .topnav a:hover {
+              background-color: #ddd;
+              color: black;
+            }
+            
+            .topnav a.active {
+              background-color: #04AA6D;
+              color: white;
+            }
+            
+            tr:nth-child(even) {background: #ddd}
+            tr:nth-child(odd) {background: #eee}
+            tr:nth-child(1) {background: #eee}
+            
+            
+            * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+        }
+        .form-container {
+            width: 90%;
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        .form-group label {
+            width: 30%;
+            padding-right: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .form-group .colon {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 65%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .form-group input[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 95%;
+            }
+            .form-group input, .form-group textarea {
+                font-size: 0.9rem;
+            }
+            .form-group label {
+                font-size: 0.85rem;
+            }
+            .form-group input[type="submit"] {
+                font-size: 1rem;
+            }
+            .form-group .job-description {
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .form-group {
+                font-size: 0.7rem; 
+            }
+            .form-group input, .form-group textarea {
+                font-size: 0.8rem;
+            }
+            .form-group input[type="submit"] {
+                font-size: 0.9rem;
+            }
+            .form-group .job-description {
+                font-size: 0.8rem;
+            }
+        }
+        </style>
+        <script type="text/javascript" src="jquery-3.7.1.js"></script>
+        <script> 
+        $(function(){
+          $("#includedContent").load("menu.html"); 
+        });
+        </script> 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                fetch('https://reevaltech.com/scripts/listOfSkillsService.php')
+                    .then(response => response.json())
+                    .then(responseData => {
+                        //console.log(responseData?.data);
+                        
+                        let skillsData = JSON.parse(responseData.data);
+                        
+                        const skillSelect = document.getElementById('techPostSkill');
+                        
+                        if (Array.isArray(skillsData) && skillsData.length > 0) {
+                            skillsData.forEach(skill => {
+                                const option = document.createElement('option');
+                                option.value = skill.SkillID;
+                                option.text = `${skill.SkillName}`;
+                                skillSelect.add(option);
+                            });
+                        } else {
+                            console.error('No skills returned');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching skills data:', error));
+                
+                $("button").click(function (e) {
+                    e.preventDefault(); // Prevent default form submission
+                    
+                    const formDataObject = {
+                        TechPostTitle: $("#techPostTitle").prop('value'),
+                        TechPostSkill: $("#techPostSkill").prop('value'),
+                        TechPostDescription: $("#techPostDescription").prop('value')
+                    };
+                    const formDataJson = JSON.stringify(formDataObject);
+                    const params = new URLSearchParams(formDataJson).toString();
+                    console.log('FormData:', formDataJson);
+                    
+                    $.ajax({
+                        type: "GET",
+                        url: 'https://dashboard.reevaltech.com/scripts/createTechFeedService.php',
+                        data: { 
+                            "SkillID": $("#techPostSkill").prop('value'),
+                            "TechFeedHeading": $("#techPostTitle").prop('value'),
+                            "TechFeedDetail": $("#techPostDescription").prop('value')
+                        },
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: successFunc,
+                        error: errorFunc
+                    });
+                });
+            
+                function successFunc(data, status) {
+                    console.log('success data==>',data)
+                }
+            
+                function errorFunc() {
+                    console.log('error')
+                }
+            });
+        </script>
+    </head>
+    </body>
+    <div id="includedContent"></div>
+    <div class="form-container">
+        <h2>Tech Post Form</h2>
+        <form id="techForm">
+            <div class="form-group">
+                <label for="techPostTitle">Tech Post Title</label>
+                <span class="colon">:</span>
+                <input type="text" id="techPostTitle" name="techPostTitle" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="techPostSkillLabel">Skill</label>
+                <span class="colon">:</span>
+                <select id="techPostSkill" name="techPostSkill" required>
+                    <option value="">Skill</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="techPostDescription">Tech Post Description</label>
+                <span class="colon">:</span>
+                <textarea id="techPostDescription" name="techPostDescription" rows="5" required></textarea>
+                    <script>
+                        const techPostDescriptionTextarea = document.getElementById('techPostDescription');
+                        // Add a listener for the 'keypress' event
+                        techPostDescriptionTextarea.addEventListener('keypress', function (e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                            
+                                const cursorPosition = this.selectionStart;
+                                const currentText = this.value;
+                                // Set the value with a bullet point and a newline
+                                this.value = currentText.substring(0, cursorPosition) + '\n• ' + currentText.substring(cursorPosition);
+                                
+                                // Move the cursor to the end of the new bullet point
+                                this.selectionStart = this.selectionEnd = cursorPosition + 3; // +3 to account for the newline and bullet
+                            }
+                        });
+                        techPostDescriptionTextarea.addEventListener('focus', function() {
+                            if (this.value.trim() === '') {
+                                this.value = '• '; // Start with a bullet point
+                                this.selectionStart = this.selectionEnd = this.value.length; 
+                            }
+                        });
+                        </script>
+            </div>
+    
+            <div class="form-group">
+                <button style="padding-left:16px" id="btn" data-value="1">Submit Tech Post</button>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        // Function to restrict single quotes in a given input element
+        function restrictSingleQuote(event) {
+            event.target.value = event.target.value.replace(/'/g, ""); // Remove single quotes
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // Apply the restriction to both fields
+            const titleField = document.getElementById("techPostTitle");
+            const descriptionField = document.getElementById("techPostDescription");
+            
+            // Add input event listeners
+            titleField.addEventListener("input", restrictSingleQuote);
+            descriptionField.addEventListener("input", restrictSingleQuote);
+        });
+    </script>
+    
+    <script type="text/javascript" src="jquery-3.7.1.js"></script>
+    </body>   
+</html>
