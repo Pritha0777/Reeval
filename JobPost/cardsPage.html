@@ -78,7 +78,8 @@
 
     function fetchJobPosts() {
       const lastMaxActJobPstSeq = 0; // Set this to the actual value as needed
-      const url = `https://reevaltech.com/scripts/getJobPostPageDataService.php?LastMaxActJobPstSeq=${lastMaxActJobPstSeq}`;
+      const userID = 0;
+      const url = `https://reevaltech.com/scripts/getJobPostPageDataService.php?LoggedInUserID=${userID}&LastMaxActJobPstSeq=${lastMaxActJobPstSeq}`;
 
       fetch(url)
         .then(response => response.json())
