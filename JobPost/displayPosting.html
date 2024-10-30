@@ -10,7 +10,7 @@
             background-color: #f4f4f9;
         }
         .result-container {
-            width: 90%; /* 90% width for small screens */
+            width: 90%;
             max-width: 700px;
             margin: 20px auto;
             padding: 20px;
@@ -91,29 +91,39 @@
             <td id="resultContact"></td>
         </tr>
         <tr>
-            <th>Job Post Validity(Start)</th>
-            <td id="resultValidity1"></td>
-        </tr>
-        <tr>
-            <th>Job Post Validity(End)</th>
-            <td id="resultValidity2"></td>
+            <th>Job Post Validity (End Date)</th>
+            <td id="resultDates"></td>
         </tr>
     </table>
 </div>
 
 <script>
-    document.getElementById('resultJobTitle').textContent = localStorage.getItem('jobTitle');
-    document.getElementById('resultCompanyName').textContent = localStorage.getItem('companyName');
-    document.getElementById('resultCityId').textContent = localStorage.getItem('cityId');
-    document.getElementById('resultWorkType').textContent = localStorage.getItem('workType');
-    document.getElementById('resultDescription').textContent = localStorage.getItem('description');
-    document.getElementById('resultExpFrom').textContent = localStorage.getItem('expFrom');
-    document.getElementById('resultExpTo').textContent = localStorage.getItem('expTo');
-    document.getElementById('resultPackage').textContent = localStorage.getItem('package');
-    document.getElementById('resultContact').textContent = localStorage.getItem('contact');
-    document.getElementById('resultValidity1').textContent = localStorage.getItem('startDate');
-    document.getElementById('resultValidity2').textContent = localStorage.getItem('endDate');
-</script>
+    // Load data from localStorage
+    window.onload = function() {
+        document.getElementById('resultJobTitle').textContent = localStorage.getItem('jobTitle');
+        document.getElementById('resultCompanyName').textContent = localStorage.getItem('companyName');
+        const cityName = localStorage.getItem('cityName');
+        document.getElementById('resultCityId').innerText = cityName;
+        const workTypeName = localStorage.getItem('workTypeName');
+        document.getElementById('resultWorkType').innerText = workTypeName;
+        // document.getElementById('resultCityId').textContent = localStorage.getItem('cityId');
+        // document.getElementById('resultWorkType').textContent = localStorage.getItem('workType');
+        document.getElementById('resultDescription').textContent = localStorage.getItem('jobDescription');
+        document.getElementById('resultExpFrom').textContent = localStorage.getItem('expFrom');
+        document.getElementById('resultExpTo').textContent = localStorage.getItem('expTo');
+        document.getElementById('resultPackage').textContent = localStorage.getItem('package');
+        document.getElementById('resultContact').textContent = localStorage.getItem('contact');
+        const startDate = localStorage.getItem('startDate');
+        const endDate = localStorage.getItem('endDate');
+        document.getElementById('resultDates').textContent = `${endDate}`;
 
+        const jobDescription = localStorage.getItem('jobDescription');
+        if (jobDescription) {
+            document.getElementById('resultDescription').textContent = jobDescription;
+        } else {
+            document.getElementById('resultDescription').textContent = "No job description available.";
+        }
+    };
+</script>
 </body>
 </html>

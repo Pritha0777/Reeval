@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Add these two lines in the head section -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+  <title>Job Cards</title>
+  <style>
+    body {
+      font-family: Poppins, Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    .card {
+      border-radius: 15px;
+      background-color: white;
+      box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px 0;
+      cursor: pointer;
+      width: 90%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 0;
+      padding-left: 0;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .card-header p {
+      font-size: 14px;
+      margin: 5px 0;
+      padding-left: 20px;
+    }
+
+    .card-body p {
+      font-size: 16px;
+      margin: 5px 0;
+      padding-left: 20px;
+    }
+
+    ion-icon {
+      margin-right: 10px;
+      /* vertical-align: middle; */
+    }
+
+    .footer {
+      background-color: #0066cc;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 0 0 10px 10px;
+      margin-top: 10px; /* Add space between the card body and footer */
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Available Job Posts</h1>
+  <div id="cardContainer"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchJobPosts();
+    });
+
+    function fetchJobPosts() {
+      const lastMaxActJobPstSeq = 0; // Set this to the actual value as needed
+      const userID = 0;
+      const url = `https://reevaltech.com/scripts/getJobPostPageDataService.php?LoggedInUserID=${userID}&LastMaxActJobPstSeq=${lastMaxActJobPstSeq}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data); // Log the response for debugging
+          if (data.status && data.message === 'success') {
+            // Parse the stringified JSON data
+            const jobPosts = JSON.parse(data.data);
+            if (Array.isArray(jobPosts)) {
+              const cardContainer = document.getElementById('cardContainer');
+              jobPosts.forEach(post => {
+                const card = createCard(post);
+                cardContainer.appendChild(card);
+              });
+            } else {
+              console.error('Expected job posts to be an array, but got:', jobPosts);
+            }
+          } else {
+            console.error('API response was not successful:', data);
+          }
+        })
+        .catch(error => console.error('Error fetching job posts:', error));
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    }
+
+    function createCard(post) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => redirectToDetails(post.JobPostID); // Pass jobPostId
+
+      // Format the location as "city, state, country"
+      const location = `${post.CityName || 'City not specified'}, ${post.StateName || 'State not specified'}, ${post.CountryName || 'Country not specified'}`;
+
+      const formattedValidity = post.JobPostValidity ? formatDate(post.JobPostValidity) : 'Date not specified';
+
+      card.innerHTML = `
+        <div class="card-header">
+          <h2>${post.JobPostTitle}</h2>
+          <p><ion-icon name="business-outline"></ion-icon> ${post.JobPostCompanyName || 'Company name not specified'}</p>
+          <p><ion-icon name="location-outline"></ion-icon> ${location}</p>
+          <p><ion-icon name="briefcase-outline"></ion-icon> ${post.JobPostExpReqFrom || 0} - ${post.JobPostExpReqTo || 0} yrs</p>
+        </div>
+        <div class="footer">Valid upto: ${formattedValidity}</div>
+      `;
+
+      return card;
+    }
+
+    function redirectToDetails(jobPostId) {
+      window.location.href = `detailsPage.html?jobPostId=${jobPostId}`;
+    }
+  </script>
+</body>
+</html>

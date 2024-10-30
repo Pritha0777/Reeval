@@ -1,282 +1,403 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Post Form</title>
-    <style>
-        * {
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            body {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 1rem;
+            }
+            
+            .topnav {
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            .topnav a {
+              float: left;
+              color: #f2f2f2;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+              font-size: 17px;
+            }
+            
+            .topnav a:hover {
+              background-color: #ddd;
+              color: black;
+            }
+            
+            .topnav a.active {
+              background-color: #04AA6D;
+              color: white;
+            }
+            
+            tr:nth-child(even) {background: #ddd}
+            tr:nth-child(odd) {background: #eee}
+            tr:nth-child(1) {background: #eee}
+            
+            * {
             box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 1rem; /* Default base font size (16px) */
-        }
+            }
 
-        /* Make the form container responsive */
-        .form-container {
-            width: 90%; /* 90% width for small screens */
-            max-width: 700px; /* Limit max width for larger screens */
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+            /* Initial button style */
+            button{
+                background-color: #007bff;  /* Original color */
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                margin: 0 auto;  /* Centers the button */
+                text-align: center;
+            }
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem; /* Responsive heading */
-            background-color: #f2f2f2;
-            padding: 10px;
-            border-radius: 5px;
-        }
+            /* Hover effect */
+            button:hover {
+                background-color: green;  /* Color on hover */
+            }
 
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 1rem; /* Responsive input label size */
-        }
 
-        .form-group label {
-            width: 30%;
-            padding-right: 10px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .form-group .colon {
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .form-group .job-description {
-            flex: 0.97; /* Allow it to take remaining space */
-            height: 150px; /* Set a height for the job description area */
-            overflow-y: auto; /* Allow scrolling if content exceeds height */
-            white-space: pre-wrap; /* Preserve whitespace */
-            border: 1px solid #ccc; /* Border for visibility */
-            border-radius: 5px; /* Rounded corners */
-            padding: 10px; /* Padding for better text visibility */
-        }
-
-        .form-group input, .form-group textarea {
-            width: 65%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem; /* Responsive input size */
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .form-group input[type="submit"] {
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            font-size: 1.1rem; /* Responsive submit button size */
-            cursor: pointer;
-        }
-
-        .form-group input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        /* Media Queries for responsiveness */
-
-        @media (max-width: 768px) {
             .form-container {
-                width: 95%; /* Wider form for smaller screens */
+                width: 90%;
+                max-width: 700px;
+                margin: 20px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
             }
-            .form-group label {
-                font-size: 0.85rem;
+            .form-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+                background-color: #f2f2f2;
+                padding: 10px;
+                border-radius: 5px;
             }
-            .form-group input, .form-group textarea {
-                font-size: 0.9rem; /* Slightly smaller input font size */
-            }
-            .form-group input[type="submit"] {
+            .form-group {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
                 font-size: 1rem;
             }
-            .form-group .job-description {
+            .form-group label {
+                width: 30%;
+                padding-right: 10px;
+                font-weight: bold;
                 font-size: 0.9rem;
             }
-        }
-
-        @media (max-width: 480px) {
-            .form-group {
-                font-size: 0.7rem; /* Decrease font size further on very small screens */
+            .form-group .colon {
+                margin-right: 10px;
+                font-weight: bold;
             }
-            .form-group input, .form-group textarea {
-                font-size: 0.8rem;
+            .form-group input, .form-group select, .form-group textarea {
+                width: 65%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+            .form-group textarea {
+                resize: vertical;
             }
             .form-group input[type="submit"] {
-                font-size: 0.9rem;
+                width: 100%;
+                background-color: #007bff;
+                color: white;
+                font-size: 1.1rem;
+                cursor: pointer;
             }
-            .form-group .job-description {
-                font-size: 0.8rem;
+            .form-group input[type="submit"]:hover {
+                background-color: #45a049;
             }
-        }
-        
-    </style>
-</head>
-<body>
-
-<div class="form-container">
-    <h2>Job Post Form</h2>
-    <form id="jobForm">
-        <div class="form-group">
-            <label for="jobTitle">Job Post Title</label>
-            <span class="colon">:</span>
-            <input type="text" id="jobTitle" name="jobTitle" required>
-        </div>
-
-        <div class="form-group">
-            <label for="companyName">Company Name</label>
-            <span class="colon">:</span>
-            <input type="text" id="companyName" name="companyName" required>
-        </div>
-
-        <div class="form-group">
-            <label for="cityId">City, State</label>
-            <span class="colon">:</span>
-            <input type="text" id="cityId" name="cityId" required>
-        </div>
-
-        <div class="form-group">
-            <label for="workType">Work Type</label>
-            <span class="colon">:</span>
-            <input type="text" id="workType" name="workType" required>
-        </div>
-
-        <div class="form-group">
-            <label for="jobDescription">Job Description</label>
-            <span class="colon">:</span>
-            <div id="jobDescription" class="job-description" contenteditable="true" placeholder="• Enter bullet points for job description..."></div>
-            <script>
-                // Automatically insert a bullet point when user starts typing
-                document.getElementById('jobDescription').addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        document.execCommand('insertHTML', false, '<br>• ');
-                    }
-                });
-
-                // On focus, set initial content as bullet point
-                document.getElementById('jobDescription').addEventListener('focus', function() {
-                    if (this.textContent.trim() === '') {
-                        this.innerHTML = '• '; // Start with a bullet
-                        placeCaretAtEnd(this);
-                    }
-                });
-
-                // Function to place caret at the end of contenteditable div
-                function placeCaretAtEnd(el) {
-                    el.focus();
-                    const range = document.createRange();
-                    range.selectNodeContents(el);
-                    range.collapse(false);
-                    const sel = window.getSelection();
-                    sel.removeAllRanges();
-                    sel.addRange(range);
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .form-container {
+                    width: 95%;
                 }
-            </script>
-        </div>
+                .form-group input, .form-group textarea {
+                    font-size: 0.9rem;
+                }
+                .form-group label {
+                    font-size: 0.85rem;
+                }
+                .form-group input[type="submit"] {
+                    font-size: 1rem;
+                }
+                .form-group .job-description {
+                    font-size: 0.9rem;
+                }
+            }
+            @media (max-width: 480px) {
+                .form-group {
+                    font-size: 0.7rem; 
+                }
+                .form-group input, .form-group textarea {
+                    font-size: 0.8rem;
+                }
+                .form-group input[type="submit"] {
+                    font-size: 0.9rem;
+                }
+                .form-group .job-description {
+                    font-size: 0.8rem;
+                }
+            }
+        </style>
+        <script type="text/javascript" src="jquery-3.7.1.js"></script>
+        <script> 
+        $(function(){
+          $("#includedContent").load("menu.html"); 
+        });
+        </script> 
+        <script type="text/javascript">
+            $(document).ready(function () {
 
-        <div class="form-group">
-            <label for="expFrom">Experience Required (From)</label>
-            <span class="colon">:</span>
-            <input type="number" id="expFrom" name="expFrom" min="0" required>
-        </div>
+                fetch("https://reevaltech.com/scripts/getJobPostWorkTypeService.php")
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Fetched work types:", data); // Log the fetched data
+        
+                        const workTypes = JSON.parse(data.data); 
+        
+                        if (Array.isArray(workTypes)) { 
+                            const workTypeSelect = document.getElementById("workType");
+                            workTypes.forEach(workType => {
+                                const option = document.createElement("option");
+                                option.value = workType.JobPostWorkTypeID; 
+                                option.textContent = workType.JobPostWorkTypeName; 
+                                workTypeSelect.appendChild(option);
+                            });
+                        } else {
+                            console.error("Expected an array but got:", workTypes);
+                        }
+                    })
+                    .catch(error => console.error("Error fetching work types:", error));
 
-        <div class="form-group">
-            <label for="expTo">Experience Required (To)</label>
-            <span class="colon">:</span>
-            <input type="number" id="expTo" name="expTo" min="0" required>
-        </div>
+                fetch('https://reevaltech.com/scripts/listOfCityService.php')
+                    .then(response => response.json())
+                    .then(responseData => {
+                        const citySelect = document.getElementById('cityId');
+        
+                        let citiesData = JSON.parse(responseData.data);
+        
+                        if (Array.isArray(citiesData) && citiesData.length > 0) {
+                            citiesData.forEach(city => {
+                                const option = document.createElement('option');
+                                option.value = city.CityID;
+                                option.text = `${city.CityName}, ${city.StateName}, ${city.CountryName}`;
+                                citySelect.add(option);
+                            });
+                        } else {
+                            console.error('No cities returned');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching city data:', error));
 
-        <div class="form-group">
-            <label for="package">Salary Package</label>
-            <span class="colon">:</span>
-            <input type="text" id="package" name="package" required>
-        </div>
+                const today = new Date().toISOString().split("T")[0]; // Today's date
+                document.getElementById("startDate").setAttribute("min", today);
+                document.getElementById("endDate").setAttribute("min", today);
+        
+                // Set minimum end date based on start date
+                document.getElementById("startDate").addEventListener("change", function() {
+                    const startDate = this.value;
+                    document.getElementById("endDate").setAttribute("min", startDate);
+                    document.getElementById("endDate").value = ""; // Clear if start date changes
+                });
 
-        <div class="form-group">
-            <label for="contact">Contact Details</label>
-            <span class="colon">:</span>
-            <input type="email" id="contact" name="contact" required>
-        </div>
+                
+                $("button").click(function (e) {
+                    console.log("inside the jobForm click listener");
 
-        <div class="form-group">
-            <label for="startDate">Start Date</label>
-            <span class="colon">:</span>
-            <input type="date" id="startDate" name="startDate" required>
-        </div>
+                    event.preventDefault(); // Prevent default form submission
 
-        <div class="form-group">
-            <label for="endDate">End Date</label>
-            <span class="colon">:</span>
-            <input type="date" id="endDate" name="endDate" required>
-        </div>
+                    console.log("inside the jobForm click listener 2");
+                    
+                    // Get the start date and end date 
+                    const startDateInput = document.getElementById('startDate').value;
+                    const endDateInput = document.getElementById('endDate').value;
 
-        <div class="form-group">
-            <input type="submit" value="Submit Job Post">
-        </div>
-    </form>
-</div>
+                    // Convert dates to ISO 8601 format
+                    const startDate = new Date(startDateInput).toISOString().split('T')[0];  // For example: "2024-10-21T00:00:00.000Z"
+                    const endDate = new Date(endDateInput).toISOString().split('T')[0];      
+                    
+                    const formDataObject = {
+                        LoggedINUserID: 0, //  hardcoded
+                        JobPostTitle: $("#jobTitle").prop('value'),
+                        JobPostCompanyName: $("#companyName").prop('value'),
+                        JobPostCityID: $("#cityId").prop('value'),
+                        JobPostWorkTypeID: $("#workType").prop('value'),
+                        JobPostDescription: $("#jobDescription").prop('value'),
+                        JobPostExpReqFrom: $("#expFrom").prop('value'),
+                        JobPostExpReqTo: $("#expTo").prop('value'),
+                        JobPostPackageDetails: $("#package").prop('value'),
+                        JobPostContactDetails: $("#contact").prop('value'),
+                        JobPostValidity: new Date($("#endDate").prop('value')).toISOString().split('T')[0]
+                    };
+                    const formDataJson = JSON.stringify(formDataObject);
+                    const params = new URLSearchParams(formDataJson).toString();
 
-<script>
-    // Set the min attribute for the start and end date inputs to today's date
-    document.addEventListener("DOMContentLoaded", function() {
-        const today = new Date().toISOString().split("T")[0]; // Get today's date in yyyy-mm-dd format
-        document.getElementById("startDate").setAttribute("min", today);
-        document.getElementById("endDate").setAttribute("min", today);
-    });
+                    console.log('FormData:', formDataJson);
 
-    // Function to set the min date for the end date based on selected start date
-    document.getElementById("startDate").addEventListener("change", function() {
-        const startDate = this.value;
-        document.getElementById("endDate").setAttribute("min", startDate); // Set end date min to start date
-        document.getElementById("endDate").value = ""; // Clear end date if start date changes
-    });
+                    $.ajax({
+                        type: "GET",
+                        url: 'https://dashboard.reevaltech.com/scripts/createJobPostService.php',
+                        data: { 
+                            "LoggedINUserID": 0, //  hardcoded
+                            "JobPostTitle": $("#jobTitle").prop('value'),
+                            "JobPostCompanyName": $("#companyName").prop('value'),
+                            "JobPostCityID": $("#cityId").prop('value'),
+                            "JobPostWorkTypeID": $("#workType").prop('value'),
+                            "JobPostDescription": $("#jobDescription").prop('value'),
+                            "JobPostExpReqFrom": $("#expFrom").prop('value'),
+                            "JobPostExpReqTo": $("#expTo").prop('value'),
+                            "JobPostPackageDetails": $("#package").prop('value'),
+                            "JobPostContactDetails": $("#contact").prop('value'),
+                            "JobPostValidity": new Date($("#endDate").prop('value')).toISOString().split('T')[0]
+                        },
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: successFunc,
+                        error: errorFunc
+                    });
 
-    document.getElementById('jobForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+                });
+            
+                function successFunc(data, status) {
+                    console.log('success data==>',data)
+                }
+            
+                function errorFunc() {
+                    console.log('error')
+                }
+            });
+        </script>
+    </head>
+    </body>
+    <div id="includedContent"></div>
+    <div class="form-container">
+        <h2>Job Post Form</h2>
+        <form id="jobForm">
+            <div class="form-group">
+                <label for="jobTitle">Job Post Title</label>
+                <span class="colon">:</span>
+                <input type="text" id="jobTitle" name="jobTitle" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <span class="colon">:</span>
+                <input type="text" id="companyName" name="companyName" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="cityId">City, State</label>
+                <span class="colon">:</span>
+                <select id="cityId" name="cityId" required>
+                    <option value="">Select City</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="workType">Work Type</label>
+                <span class="colon">:</span>
+                <select id="workType" name="workType" required>
+                    <option value="">Select Work Type</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="jobDescription">Job Description</label>
+                <span class="colon">:</span>
+                <textarea id="jobDescription" name="jobDescription" rows="5" required></textarea>
+                    <script>
+                        const jobDescriptionTextarea = document.getElementById('jobDescription');
 
-        // Fetch the form values
-        const jobTitle = document.getElementById('jobTitle').value;
-        const companyName = document.getElementById('companyName').value;
-        const cityId = document.getElementById('cityId').value;
-        const workType = document.getElementById('workType').value;
-        const description = document.getElementById('jobDescription').innerText;
-        const expFrom = document.getElementById('expFrom').value;
-        const expTo = document.getElementById('expTo').value;
-        const package = document.getElementById('package').value;
-        const contact = document.getElementById('contact').value;
-        const validity1 = document.getElementById('startDate').value;
-        const formattedDate1 = validity1.split('-').reverse().join('-');
-        const validity2 = document.getElementById('endDate').value;
-        const formattedDate2 = validity2.split('-').reverse().join('-');
+                        // Add a listener for the 'keypress' event
+                        jobDescriptionTextarea.addEventListener('keypress', function (e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                            
+                                const cursorPosition = this.selectionStart;
+                                const currentText = this.value;
 
-        // Save data to localStorage
-        localStorage.setItem('jobTitle', jobTitle);
-        localStorage.setItem('companyName', companyName);
-        localStorage.setItem('cityId', cityId);
-        localStorage.setItem('workType', workType);
-        localStorage.setItem('description', description);
-        localStorage.setItem('expFrom', expFrom);
-        localStorage.setItem('expTo', expTo);
-        localStorage.setItem('package', package);
-        localStorage.setItem('contact', contact);
-        localStorage.setItem('startDate', formattedDate1);
-        localStorage.setItem('endDate', formattedDate2);
+                                // Set the value with a bullet point and a newline
+                                this.value = currentText.substring(0, cursorPosition) + '\n• ' + currentText.substring(cursorPosition);
+                                
+                                // Move the cursor to the end of the new bullet point
+                                this.selectionStart = this.selectionEnd = cursorPosition + 3; // +3 to account for the newline and bullet
+                            }
+                        });
 
-        // Redirect to job-post.html
-        window.location.href = 'displayPosting.html';
-    });
-</script>
-</body>
+                        jobDescriptionTextarea.addEventListener('focus', function() {
+                            if (this.value.trim() === '') {
+                                this.value = '• '; // Start with a bullet point
+                                this.selectionStart = this.selectionEnd = this.value.length; 
+                            }
+                        });
+                        </script>
+            </div>
+    
+            <div class="form-group">
+                <label for="expFrom">Experience Required (From)</label>
+                <span class="colon">:</span>
+                <input type="number" id="expFrom" name="expFrom" min="0" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="expTo">Experience Required (To)</label>
+                <span class="colon">:</span>
+                <input type="number" id="expTo" name="expTo" min="0" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="package">Salary Package</label>
+                <span class="colon">:</span>
+                <input type="text" id="package" name="package" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="contact">Contact Details</label>
+                <span class="colon">:</span>
+                <input type="text" id="contact" name="contact" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <span class="colon">:</span>
+                <input type="date" id="startDate" name="startDate" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <span class="colon">:</span>
+                <input type="date" id="endDate" name="endDate" required>
+            </div>
+    
+            <div class="form-group">
+                <!-- <input type="submit" value="Submit Job Post"> -->
+                <button style="padding-left:16px" id="btn" data-value="1">Submit Job Post</button>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to prevent single quotes in input fields
+            function restrictSingleQuote(inputField) {
+                inputField.addEventListener('input', function () {
+                    this.value = this.value.replace(/'/g, ""); // Remove single quotes
+                });
+            }
+    
+            // Apply restriction to jobTitle and jobDescription fields
+            restrictSingleQuote(document.getElementById("jobTitle"));
+            restrictSingleQuote(document.getElementById("jobDescription"));
+        });
+    </script>
+    
+    <script type="text/javascript" src="jquery-3.7.1.js"></script>
+    </body>   
 </html>

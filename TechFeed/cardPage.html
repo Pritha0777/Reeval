@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .card h3 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        .card .details {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+    <script type="text/javascript" src="jquery-3.7.1.js"></script>
+</head>
+<body>
+    <div id="techFeedCardsContainer"></div>
+
+    <script>
+        $(document).ready(function () {
+            const userID = 0; // Temporarily hard-coded LoggedInUserID
+            const lastTechFeedSeq = 0; // Start with 0 to fetch initial feeds
+
+            // Fetch and display Tech Feed data
+            function loadTechFeedCards() {
+                fetch(`https://reevaltech.com/scripts/getTechFeedPageFilteredDataService.php?LoggedInUserID=${userID}&LastMaxActTechFeedSeq=${lastTechFeedSeq}`)
+                    .then(response => response.json())
+                    .then(responseData => {
+                        console.log("Raw API response:", responseData);
+                        
+                        let techFeeds = responseData.data ? JSON.parse(responseData.data) : [];
+
+                        if (Array.isArray(techFeeds) && techFeeds.length > 0) {
+                            displayTechFeedCards(techFeeds);
+                        } else {
+                            $("#techFeedCardsContainer").html("<p>No tech feeds found</p>");
+                        }
+                    })
+                    .catch(error => console.error("Error fetching tech feed data:", error));
+            }
+
+            // Function to display Tech Feed Cards
+            function displayTechFeedCards(techFeeds) {
+                $("#techFeedCardsContainer").empty();
+                techFeeds.forEach(feed => {
+                    const techFeedDetailShort = feed.TechFeedDetail.split('\n').slice(0, 4).join('<br>');
+                    
+                    const cardHtml = `
+                        <div class="card" data-id="${feed.TechFeedID}">
+                            <h3>${feed.TechFeedHeading}</h3>
+                            <p><strong></strong> ${feed.SkillName}</p>
+                            <p><ion-icon name="eye-outline"></ion-icon> ${feed.TechFeedViewCount}</p>
+                            <p class="details">${techFeedDetailShort}...</p>
+                        </div>
+                    `;
+                    
+                    $("#techFeedCardsContainer").append(cardHtml);
+                });
+
+                // Add click event to each card
+                $(".card").click(function () {
+                    const techFeedID = $(this).data("id");
+                    incrementViewCountAndShowDetails(techFeedID);
+                });
+            }
+
+            // Function to increment view count and redirect to details page
+            function incrementViewCountAndShowDetails(techFeedID) {
+                // Update the view count before redirecting
+                $.ajax({
+                    type: "POST",
+                    url: `https://reevaltech.com/scripts/updateTechFeedViewCountService.php`, // Ensure this endpoint exists
+                    data: JSON.stringify({ TechFeedID: techFeedID }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        console.log("View count incremented for TechFeedID:", techFeedID);
+                        // Redirect to details page
+                        window.location.href = `techFeedDetails.html?TechFeedID=${techFeedID}`;
+                    },
+                    error: function (error) {
+                        console.error("Error incrementing view count:", error);
+                        // Redirect to details page even if there was an error
+                        window.location.href = `techFeedDetails.html?TechFeedID=${techFeedID}`;
+                    }
+                });
+            }
+
+            // Refresh cards when the page becomes visible
+            document.addEventListener("visibilitychange", function() {
+                if (document.visibilityState === 'visible') {
+                    loadTechFeedCards(); // Reload cards when the page is visible
+                }
+            });
+
+            // Initial load
+            loadTechFeedCards();
+        });
+    </script>
+</body>
+</html>
